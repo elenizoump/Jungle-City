@@ -2,8 +2,8 @@ import { Theme } from './types'
 
 const theme: Theme = {
   primary: {
-    backgroundColor: 'rebeccapurple',
-    color: 'aliceblue',
+    backgroundColor: 'white',
+    color: 'black',
   },
 }
 

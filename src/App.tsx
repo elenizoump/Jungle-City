@@ -1,10 +1,8 @@
 import React, { FunctionComponent } from 'react'
-import styled, {
-  createGlobalStyle,
-  ThemeProvider,
-} from 'styled-components/macro'
+import { createGlobalStyle, ThemeProvider } from 'styled-components/macro'
 import theme from './themes'
 import { Theme } from './themes/types'
+import IndexPage from './pages'
 
 const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
 body {
@@ -14,13 +12,14 @@ body {
 }
 `
 
-const StyledApp = styled.div`
-  color: blue;
-`
+// const StyledApp = styled.div`
+//   color: blue;
+// `
 
 const App: FunctionComponent = () => (
   <ThemeProvider theme={theme}>
-    <StyledApp>hi</StyledApp>
+    <IndexPage />
+    {/* <StyledApp>hi</StyledApp> */}
     <GlobalStyle />
   </ThemeProvider>
 )
