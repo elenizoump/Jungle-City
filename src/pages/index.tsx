@@ -1,19 +1,51 @@
 import React, { FunctionComponent } from 'react'
 import styled from 'styled-components/macro'
+import { Link } from 'react-router-dom'
 
 const StyledIndexPage = styled.div`
-  p {
-    font-size: 36px;
+  height: 100%;
+  width: 100%;
+  color: white;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  padding: 10rem;
+  .IndexContents {
+    width: 50%;
+    padding: 0 3%;
+    margin-right: auto;
+    margin-left: auto;
+    box-sizing: border-box;
+    text-align: center;
+  }
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 500;
+  }
+  .get-started {
+    background-color: ${(props) => props.theme.primary.buttonbackgroundColor};
+    border: 2px ${(props) => props.theme.primary.buttonbackgroundColor};
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    text-decoration: none;
+    color: white;
+    margin-top: 10%;
   }
 `
 
 const StyledSectionP = styled.p`
-  font-size: 36px;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
 `
 
 const IndexPage: FunctionComponent = () => (
   <StyledIndexPage>
-    <div className="container-fluid">
+    <div className="IndexContents">
       <h1>Welcome to Jungle City</h1>
       <StyledSectionP>
         This project serves as a digital platform aiming to help the local
@@ -23,9 +55,9 @@ const IndexPage: FunctionComponent = () => (
         enviromental C02 load by 5% within a 10 years scope.
       </StyledSectionP>
     </div>
-    <button className="get-started">
-      <a href="/authentication/sign-in">Get Started!</a>
-    </button>
+    <Link to="/authentication/log-in" className="get-started">
+      Get Started!
+    </Link>
   </StyledIndexPage>
 )
 
