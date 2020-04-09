@@ -7,7 +7,7 @@ import React, {
   ChangeEvent,
 } from 'react'
 import styled from 'styled-components/macro'
-import WithLogout from '../components/WithLogout'
+import WhenLoggedOut from '../components/WhenLoggedOut'
 import AuthContext from '../authContext'
 
 const StyledLogInPage = styled.div`
@@ -69,11 +69,11 @@ const StyledLogInPage = styled.div`
   }
 `
 
-const StyledSectionP = styled.p`
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-`
+// const StyledSectionP = styled.p`
+//   font-size: 1rem;
+//   font-weight: 400;
+//   line-height: 1.5;
+// `
 
 // action="/authentication/log-in" method="POST"
 
@@ -85,21 +85,24 @@ const LogIn: FunctionComponent = () => {
 
   const [password, setPassword] = useState('')
 
-  const authContext = useContext(AuthContext)
+  const { signIn } = useContext(AuthContext)
 
   const onFormSubmit = (e: FormEvent) => {
     e.preventDefault()
 
     if (formValid({ email, password })) {
       // ajax request with callback tha sets the state
-      alert(`Submitting form with email: ${email} and password: ${password}`)
+      console.log(
+        `Submitting form with email: ${email} and password: ${password}`
+      )
       // set logged in
-      authContext.setStatus('loggedIn')
+      // authContext.setStatus('loggedIn')
+      signIn({ email, password })
     }
   }
 
   return (
-    <WithLogout>
+    <WhenLoggedOut>
       <StyledLogInPage>
         <div className="logInContents">
           <form onSubmit={onFormSubmit}>
@@ -139,7 +142,7 @@ const LogIn: FunctionComponent = () => {
           </form>
         </div>
       </StyledLogInPage>
-    </WithLogout>
+    </WhenLoggedOut>
   )
 }
 

@@ -24,6 +24,7 @@ const StyledIndexPage = styled.div`
   h1 {
     font-size: 2.5rem;
     font-weight: 500;
+    margin-bottom: 4rem;
   }
   .get-started {
     background-color: ${(props) => props.theme.primary.buttonbackgroundColor};
@@ -38,7 +39,7 @@ const StyledIndexPage = styled.div`
 `
 
 const StyledSectionP = styled.p`
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 400;
   line-height: 1.5;
 `

@@ -1,15 +1,18 @@
 import { createContext } from 'react'
-
-export type AuthStatus = 'pending' | 'loggedIn' | 'loggedOut'
+import type { User } from 'firebase/app'
 
 export interface AuthContextInterface {
-  status: AuthStatus
-  setStatus: (newStatus: AuthStatus) => void
+  authStatus: 'pending' | 'loggedIn' | 'loggedOut'
+  user: User | null
+  signIn: ({ email, password }: { email: string; password: string }) => void
+  signOut: () => void
 }
 
 const AuthContext = createContext<AuthContextInterface>({
-  status: 'pending',
-  setStatus: () => {},
+  authStatus: 'pending',
+  user: null,
+  signIn: () => {},
+  signOut: () => {},
 })
 
 export default AuthContext

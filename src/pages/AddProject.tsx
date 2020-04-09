@@ -1,9 +1,12 @@
 import React, { FunctionComponent } from 'react'
+import MainLayout from '../layouts/MainLayout'
 
 const AddProject: FunctionComponent = () => (
-  <div className="container-fluid">
-    <h1>AddProject</h1>
-  </div>
+  <MainLayout>
+    <div className="container-fluid">
+      <h1>AddProject</h1>
+    </div>
+  </MainLayout>
 )
 
 export default AddProject
