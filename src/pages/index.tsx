@@ -28,7 +28,7 @@ const StyledIndexPage = styled.div`
   }
   .get-started {
     background-color: ${(props) => props.theme.primary.buttonbackgroundColor};
-    border: 2px ${(props) => props.theme.primary.buttonbackgroundColor};
+    border: 1px solid white;
     border-radius: 10px;
     box-sizing: border-box;
     padding: 0.5rem;

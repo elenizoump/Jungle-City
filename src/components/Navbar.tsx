@@ -17,7 +17,20 @@ const StyledNavbar = styled.nav`
   }
   .logout {
     height: 100%;
-    width: 106px;
+    width: 125px;
+    a {
+      &:hover:not(.active) {
+        background-color: rgba(0, 189, 147, 0.82);
+      }
+    }
+    .signOutbutton {
+      border: 1px solid white;
+      border-radius: 10px;
+      padding: 10px;
+      &:hover:not(.active) {
+        background-color: rgb(28, 125, 104);
+      }
+    }
   }
 
   a {
@@ -33,7 +46,7 @@ const StyledNavbar = styled.nav`
     /* padding: 14px 16px; */
     text-decoration: none;
     &:hover:not(.active) {
-      background-color: #111;
+      background-color: rgb(28, 125, 104);
     }
   }
 
@@ -46,7 +59,7 @@ const StyledNavbar = styled.nav`
     height: 100%;
     width: 100%;
     justify-content: space-evenly;
-    max-width: 600px;
+    max-width: 800px;
   }
 
   ul.topnav li {
@@ -75,7 +88,7 @@ const Navbar: FunctionComponent = () => (
     </div>
     <ul className="topnav">
       <li>
-        <Link to="/city-emmissions-form">Calculate City Emmissions</Link>
+        <Link to="/city-emissions-form">Calculate 0ffset Target</Link>
       </li>
       <li>
         <Link to="/add-project">Add a Project</Link>
@@ -88,7 +101,9 @@ const Navbar: FunctionComponent = () => (
       </li>
     </ul>
     <div className="logout">
-      <Link to="/logout">Sign Out</Link>
+      <Link to="/logout">
+        <div className="signOutbutton">Sign Out</div>
+      </Link>
     </div>
   </StyledNavbar>
 )

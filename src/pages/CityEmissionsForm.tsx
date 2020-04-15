@@ -9,7 +9,7 @@ import styled from 'styled-components/macro'
 
 const OFFSET_TARGET_PER_KG_OF_CO2 = 0.047794
 
-const StyledCityEmmissionsForm = styled.div`
+const StyledCityEmissionsForm = styled.div`
   height: 100%;
   width: 100%;
   box-sizing: border-box;
@@ -20,7 +20,7 @@ const StyledCityEmmissionsForm = styled.div`
   align-items: center;
   padding: 10rem;
 
-  .cityEmmissionsFormContents {
+  .cityEmissionsFormContents {
     background-color: rgba(255, 255, 255, 0.92);
     color: ${(props) => props.theme.primary.greenTextColor};
     border-radius: 10px;
@@ -68,34 +68,29 @@ const StyledCityEmmissionsForm = styled.div`
     font-size: 1rem !important;
   }
 `
-const formValid = ({
-  city,
-  emmissions,
-}: {
-  city: string
-  emmissions: number
-}) => city !== '' && emmissions !== null
+const formValid = ({ city, emissions }: { city: string; emissions: number }) =>
+  city !== '' && emissions !== null
 
-const CityEmmissionsForm: FunctionComponent = () => {
+const CityEmissionsForm: FunctionComponent = () => {
   const [city, setCity] = useState('')
 
-  const [emmissions, setEmmissions] = useState(0)
+  const [emissions, setEmissions] = useState(0)
 
   const onFormSubmit = (e: FormEvent) => {
     e.preventDefault()
 
-    if (formValid({ city, emmissions })) {
+    if (formValid({ city, emissions })) {
       // ajax request with callback tha sets the state
-      alert(`Submitting form with city: ${city} and emmissions: ${emmissions}`)
+      alert(`Submitting form with city: ${city} and emissions: ${emissions}`)
       // set logged in
-      let offsetTarget = emmissions * OFFSET_TARGET_PER_KG_OF_CO2
+      let offsetTarget = emissions * OFFSET_TARGET_PER_KG_OF_CO2
     }
   }
 
   return (
     <MainLayout>
-      <StyledCityEmmissionsForm>
-        <div className="cityEmmissionsFormContents">
+      <StyledCityEmissionsForm>
+        <div className="cityEmissionsFormContents">
           <form onSubmit={onFormSubmit}>
             <h1 className="gettingStarted">
               Calculate Offset Target for City Emissions{' '}
@@ -122,12 +117,12 @@ const CityEmmissionsForm: FunctionComponent = () => {
                 <br />
                 <input
                   type="number"
-                  id="input-emmissions"
-                  name="emmissions"
-                  // placeholder="City's Emmissions"
-                  value={emmissions}
+                  id="input-emissions"
+                  name="emissions"
+                  // placeholder="City's Emissions"
+                  value={emissions}
                   onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    setEmmissions(Number(e.target.value))
+                    setEmissions(Number(e.target.value))
                   }
                 />
               </div>
@@ -135,9 +130,9 @@ const CityEmmissionsForm: FunctionComponent = () => {
             <button type="submit">Calculate</button>
           </form>
         </div>
-      </StyledCityEmmissionsForm>
+      </StyledCityEmissionsForm>
     </MainLayout>
   )
 }
 
-export default CityEmmissionsForm
+export default CityEmissionsForm

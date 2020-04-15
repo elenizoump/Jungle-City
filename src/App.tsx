@@ -4,15 +4,20 @@ import theme from './themes'
 import { Theme } from './themes/types'
 import IndexPage from './pages'
 import LogIn from './pages/LogIn'
-import CityEmmissionsForm from './pages/CityEmmissionsForm'
+import CityEmissionsForm from './pages/CityEmissionsForm'
 import AllProjects from './pages/AllProjects'
 import AddProject from './pages/AddProject'
 import Profile from './pages/Profile'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import BackgroundPicture from './images/Background_Picture.png'
 import AuthContext, { AuthContextInterface } from './authContext'
+import CitiesContext, {
+  CityInterface,
+  CitiesContextInterface,
+} from './citiesContext'
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
+import 'firebase/firestore'
 import LogOut from './pages/LogOut'
 
 const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
@@ -32,8 +37,6 @@ interface SignInProps {
   password: string
 }
 
-console.log(process.env)
-
 firebase.initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: `${process.env.REACT_APP_FIREBASE_PROJECT_ID}.firebaseapp.com`,
@@ -44,8 +47,11 @@ firebase.initializeApp({
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
 })
 
+const db = firebase.firestore()
+
 const App: FunctionComponent = () => {
   // const [allProjects, setallProjects] = useState([])
+  const [cities, setCities] = useState<CitiesContextInterface>([])
   const [authStatus, setAuthStatus] = useState<
     AuthContextInterface['authStatus']
   >('pending')
@@ -73,6 +79,23 @@ const App: FunctionComponent = () => {
       })
   }
 
+  const getCities = async () => {
+    const citiesData = await db.collection('cities').get()
+    const allCities: CityInterface[] = []
+    ;(citiesData as firebase.firestore.QuerySnapshot<
+      firebase.firestore.DocumentData
+    >).forEach((document) => {
+      const { name, currentEmissionsPerYear } = document.data() as CityInterface
+      allCities.push({
+        id: document.id,
+        name,
+        currentEmissionsPerYear,
+      })
+    })
+    console.table(allCities)
+    setCities(allCities)
+  }
+
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -83,6 +106,7 @@ const App: FunctionComponent = () => {
         setUser(null)
       }
     })
+    getCities()
 
     // Cleanup subscription on unmount
     return () => unsubscribe()
@@ -97,34 +121,36 @@ const App: FunctionComponent = () => {
         signOut,
       }}
     >
-      <ThemeProvider theme={theme}>
-        <Router>
-          <Switch>
-            <Route path="/authentication/log-in">
-              <LogIn />
-            </Route>
-            <Route path="/city-emmissions-form">
-              <CityEmmissionsForm />
-            </Route>
-            <Route path="/all-projects">
-              <AllProjects />
-            </Route>
-            <Route path="/add-project">
-              <AddProject />
-            </Route>
-            <Route path="/profile">
-              <Profile />
-            </Route>
-            <Route path="/logout">
-              <LogOut />
-            </Route>
-            <Route path="/">
-              <IndexPage />
-            </Route>
-          </Switch>
-        </Router>
-        <GlobalStyle />
-      </ThemeProvider>
+      <CitiesContext.Provider value={cities}>
+        <ThemeProvider theme={theme}>
+          <Router>
+            <Switch>
+              <Route path="/authentication/log-in">
+                <LogIn />
+              </Route>
+              <Route path="/city-emissions-form">
+                <CityEmissionsForm />
+              </Route>
+              <Route path="/all-projects">
+                <AllProjects />
+              </Route>
+              <Route path="/add-project">
+                <AddProject />
+              </Route>
+              <Route path="/profile">
+                <Profile />
+              </Route>
+              <Route path="/logout">
+                <LogOut />
+              </Route>
+              <Route path="/">
+                <IndexPage />
+              </Route>
+            </Switch>
+          </Router>
+          <GlobalStyle />
+        </ThemeProvider>
+      </CitiesContext.Provider>
     </AuthContext.Provider>
   )
 }
