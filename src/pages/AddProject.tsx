@@ -2,10 +2,12 @@ import React, {
   FunctionComponent,
   useState,
   FormEvent,
+  useContext,
   ChangeEvent,
 } from 'react'
 import MainLayout from '../layouts/MainLayout'
 import styled from 'styled-components/macro'
+import CitiesContext from '../citiesContext'
 
 const StyledAddProjectForm = styled.div`
   height: 100%;
@@ -43,11 +45,13 @@ const StyledAddProjectForm = styled.div`
         margin: 1rem;
       }
 
-      input {
+      input,
+      select {
         background-color: white;
-        border-color: ${(props) => props.theme.primary.buttonbackgroundColor};
+        border: 1px solid rgba(28, 160, 134, 0.86);
+        text-align: center;
         border-radius: 7px;
-        color: ${(props) => props.theme.primary.buttonbackgroundColor};
+        color: grey;
         font-size: 1rem;
         margin: 0.5rem;
       }
@@ -79,8 +83,8 @@ const formValid = ({
 }) =>
   name !== '' && city !== '' && status !== '' && squareMetersOfGreenery !== null
 
-const AddProjectForm: FunctionComponent = () =>
-  null /*{
+const AddProjectForm: FunctionComponent = () => {
+  const allCities = useContext(CitiesContext)
   const [name, setName] = useState('')
   const [city, setCity] = useState('')
   const [status, setStatus] = useState('')
@@ -92,7 +96,15 @@ const AddProjectForm: FunctionComponent = () =>
       alert(
         `Submitting form with name: ${name} and squareMetersOfGreenery: ${squareMetersOfGreenery}`
       )
-      // set logged in
+      // const createProject = async () => {
+      //   const projectsData = await db.collection('projects').add({
+      //     name: '',
+      //     location: '',
+      //     city: '',
+      //     status: '',
+      //     squareMetersOfGreenery: 2,
+      //   })
+      // }
       //let offsetTarget = emissions * OFFSET_TARGET_PER_KG_OF_CO2
     }
   }
@@ -104,7 +116,7 @@ const AddProjectForm: FunctionComponent = () =>
             <h1 className="gettingStarted">Add a new Project </h1>
             <div className="InputContainer">
               <div className="individualInput">
-                <label htmlFor="input-name"></label>
+                <label htmlFor="input-name">Select a name:</label>
                 <br />
                 <input
                   type="name"
@@ -118,53 +130,54 @@ const AddProjectForm: FunctionComponent = () =>
                 />
               </div>
               <div className="individualInput">
-                <label htmlFor="city-select">Choose a pet:</label>
-                <select name="pets" id="pet-select">
-                  <option value="">Please select an instrument</option>
-                  {[
-                    'Piano',
-                    'Guitar',
-                    'Violin',
-                    'Drums',
-                    'Saxophone',
-                    'Flute',
-                    'Clarinet',
-                    'Cello',
-                    'Vocals',
-                  ].map((instrumentName) => (
-                    <option key={instrumentName} value={instrumentName}>
-                      {instrumentName}
+                <label htmlFor="city-select">Select a city:</label>
+                <br />
+                <select
+                  name="city"
+                  id="city-select"
+                  onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+                    setCity(e.target.value)
+                  }
+                >
+                  <option value="">Please select a city</option>
+                  {allCities.map(({ id: cityId, name: cityName }) => (
+                    <option key={cityId} value={cityId}>
+                      {cityName}
                     </option>
                   ))}
                 </select>
               </div>
               <div className="individualInput">
-                <label htmlFor="input-name"></label>
+                <label htmlFor="status-select">Select building status:</label>
                 <br />
-                <input
-                  type="name"
-                  id="input-name"
-                  name="name"
-                  placeholder="Project's Name"
-                  value={name}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    setName(e.target.value)
+                <select
+                  name="status"
+                  id="status-select"
+                  onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+                    setStatus(e.target.value)
                   }
-                />
+                >
+                  <option value="">Please select status</option>
+                  {['active', 'building', 'proposed'].map((status) => (
+                    <option key={status} value={status}>
+                      {status}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="individualInput">
                 <label htmlFor="input-password">
-                  kg of CO<sub>2</sub> /year
+                  m<sup>2</sup> of greenery:
                 </label>
                 <br />
                 <input
                   type="number"
-                  id="input-emissions"
-                  name="emissions"
-                  // placeholder="City's Emissions"
-                  value={emissions}
+                  id="input-greenery"
+                  name="squareMetersOfGreenery"
+                  placeholder="0"
+                  value={squareMetersOfGreenery}
                   onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    setEmissions(Number(e.target.value))
+                    setSquareMetersOfGreenery(Number(e.target.value))
                   }
                 />
               </div>
@@ -176,5 +189,5 @@ const AddProjectForm: FunctionComponent = () =>
     </MainLayout>
   )
 }
-*/
+
 export default AddProjectForm

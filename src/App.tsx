@@ -15,6 +15,10 @@ import CitiesContext, {
   CityInterface,
   CitiesContextInterface,
 } from './citiesContext'
+import ProjectsContext, {
+  ProjectInterface,
+  ProjectsContextInterface,
+} from './projectsContext'
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
@@ -52,6 +56,7 @@ const db = firebase.firestore()
 const App: FunctionComponent = () => {
   // const [allProjects, setallProjects] = useState([])
   const [cities, setCities] = useState<CitiesContextInterface>([])
+  const [projects, setProjects] = useState<ProjectsContextInterface>([])
   const [authStatus, setAuthStatus] = useState<
     AuthContextInterface['authStatus']
   >('pending')
@@ -82,9 +87,8 @@ const App: FunctionComponent = () => {
   const getCities = async () => {
     const citiesData = await db.collection('cities').get()
     const allCities: CityInterface[] = []
-    ;(citiesData as firebase.firestore.QuerySnapshot<
-      firebase.firestore.DocumentData
-    >).forEach((document) => {
+
+    citiesData.forEach((document) => {
       const { name, currentEmissionsPerYear } = document.data() as CityInterface
       allCities.push({
         id: document.id,
@@ -92,8 +96,44 @@ const App: FunctionComponent = () => {
         currentEmissionsPerYear,
       })
     })
+
     console.table(allCities)
     setCities(allCities)
+  }
+
+  const getProjects = async () => {
+    if (!user) {
+      return
+    }
+
+    const userDocs = await db
+      .collection('users')
+      .where('userId', '==', user.uid)
+      .get()
+
+    const userProjects = await userDocs.docs[0].ref.collection('projects').get()
+
+    const allProjects: ProjectInterface[] = []
+
+    userProjects.forEach((project) => {
+      const {
+        name,
+        location,
+        city,
+        status,
+        squareMetersOfGreenery,
+      } = project.data() as ProjectInterface
+      allProjects.push({
+        id: project.id,
+        name,
+        location,
+        city,
+        status,
+        squareMetersOfGreenery,
+      })
+    })
+    console.table(allProjects)
+    setProjects(allProjects)
   }
 
   useEffect(() => {
@@ -112,6 +152,10 @@ const App: FunctionComponent = () => {
     return () => unsubscribe()
   }, [])
 
+  useEffect(() => {
+    getProjects()
+  }, [user])
+
   return (
     <AuthContext.Provider
       value={{
@@ -122,34 +166,36 @@ const App: FunctionComponent = () => {
       }}
     >
       <CitiesContext.Provider value={cities}>
-        <ThemeProvider theme={theme}>
-          <Router>
-            <Switch>
-              <Route path="/authentication/log-in">
-                <LogIn />
-              </Route>
-              <Route path="/city-emissions-form">
-                <CityEmissionsForm />
-              </Route>
-              <Route path="/all-projects">
-                <AllProjects />
-              </Route>
-              <Route path="/add-project">
-                <AddProject />
-              </Route>
-              <Route path="/profile">
-                <Profile />
-              </Route>
-              <Route path="/logout">
-                <LogOut />
-              </Route>
-              <Route path="/">
-                <IndexPage />
-              </Route>
-            </Switch>
-          </Router>
-          <GlobalStyle />
-        </ThemeProvider>
+        <ProjectsContext.Provider value={projects}>
+          <ThemeProvider theme={theme}>
+            <Router>
+              <Switch>
+                <Route path="/authentication/log-in">
+                  <LogIn />
+                </Route>
+                <Route path="/city-emissions-form">
+                  <CityEmissionsForm />
+                </Route>
+                <Route path="/all-projects">
+                  <AllProjects />
+                </Route>
+                <Route path="/add-project">
+                  <AddProject />
+                </Route>
+                <Route path="/profile">
+                  <Profile />
+                </Route>
+                <Route path="/logout">
+                  <LogOut />
+                </Route>
+                <Route path="/">
+                  <IndexPage />
+                </Route>
+              </Switch>
+            </Router>
+            <GlobalStyle />
+          </ThemeProvider>
+        </ProjectsContext.Provider>
       </CitiesContext.Provider>
     </AuthContext.Provider>
   )

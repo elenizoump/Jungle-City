@@ -47,7 +47,8 @@ const StyledCityEmissionsForm = styled.div`
 
       input {
         background-color: white;
-        border-color: ${(props) => props.theme.primary.buttonbackgroundColor};
+        border: 1px solid rgba(28, 160, 134, 0.86);
+        text-align: center;
         border-radius: 7px;
         color: ${(props) => props.theme.primary.buttonbackgroundColor};
         font-size: 1rem;
