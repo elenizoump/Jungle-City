@@ -54,9 +54,10 @@ firebase.initializeApp({
 const db = firebase.firestore()
 
 const App: FunctionComponent = () => {
-  // const [allProjects, setallProjects] = useState([])
   const [cities, setCities] = useState<CitiesContextInterface>([])
-  const [projects, setProjects] = useState<ProjectsContextInterface>([])
+  const [projects, setProjects] = useState<
+    ProjectsContextInterface['projects']
+  >([])
   const [authStatus, setAuthStatus] = useState<
     AuthContextInterface['authStatus']
   >('pending')
@@ -82,6 +83,18 @@ const App: FunctionComponent = () => {
         setUser(null)
         setAuthStatus('loggedOut')
       })
+  }
+
+  const addProject = async (project: Omit<ProjectInterface, 'id'>) => {
+    if (!user) {
+      return
+    }
+    const userDocs = await db
+      .collection('users')
+      .where('userId', '==', user.uid)
+      .get()
+    await userDocs.docs[0].ref.collection('projects').add(project)
+    getProjects()
   }
 
   const getCities = async () => {
@@ -119,7 +132,7 @@ const App: FunctionComponent = () => {
       const {
         name,
         location,
-        city,
+        cityId,
         status,
         squareMetersOfGreenery,
       } = project.data() as ProjectInterface
@@ -127,7 +140,7 @@ const App: FunctionComponent = () => {
         id: project.id,
         name,
         location,
-        city,
+        cityId,
         status,
         squareMetersOfGreenery,
       })
@@ -166,7 +179,7 @@ const App: FunctionComponent = () => {
       }}
     >
       <CitiesContext.Provider value={cities}>
-        <ProjectsContext.Provider value={projects}>
+        <ProjectsContext.Provider value={{ projects, addProject }}>
           <ThemeProvider theme={theme}>
             <Router>
               <Switch>

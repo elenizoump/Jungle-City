@@ -3,14 +3,20 @@ import { createContext } from 'react'
 export interface ProjectInterface {
   id: string
   name: string
-  city: string
+  cityId: string
   location: string
-  status: string
+  status: 'active' | 'proposed' | 'building'
   squareMetersOfGreenery: number
 }
 
-export type ProjectsContextInterface = ProjectInterface[]
+export interface ProjectsContextInterface {
+  projects: ProjectInterface[]
+  addProject: (project: Omit<ProjectInterface, 'id'>) => void
+}
 
-const ProjectsContext = createContext<ProjectsContextInterface>([])
+const ProjectsContext = createContext<ProjectsContextInterface>({
+  projects: [],
+  addProject: () => {},
+})
 
 export default ProjectsContext
