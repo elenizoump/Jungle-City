@@ -4,8 +4,11 @@ import { Link } from 'react-router-dom'
 import Logo_JungleCity from '../images/Logo_JungleCity.png'
 
 const StyledNavbar = styled.nav`
+  /* position: fixed;
+  top: 0px;
+  left: 0px; */
   height: 70px;
-  width: 100vw;
+  width: 100%;
   display: flex;
   background-color: rgba(0, 189, 147, 0.82);
   justify-content: space-between;

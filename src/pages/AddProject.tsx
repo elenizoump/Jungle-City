@@ -8,6 +8,7 @@ import React, {
 import MainLayout from '../layouts/MainLayout'
 import styled from 'styled-components/macro'
 import CitiesContext from '../citiesContext'
+import ProjectsContext, { ProjectInterface } from '../projectsContext'
 
 const StyledAddProjectForm = styled.div`
   height: 100%;
@@ -18,7 +19,7 @@ const StyledAddProjectForm = styled.div`
   justify-content: center;
   align-content: center;
   align-items: center;
-  padding: 10rem;
+  padding: 4.2rem;
 
   .addProjectFormContents {
     background-color: rgba(255, 255, 255, 0.92);
@@ -66,48 +67,40 @@ const StyledAddProjectForm = styled.div`
     padding: 0.5rem;
     text-decoration: none;
     color: white;
-    margin-top: 10%;
+    margin-top: 5%;
     font-size: 1rem !important;
   }
 `
-const formValid = ({
-  name,
-  city,
-  status,
-  squareMetersOfGreenery,
-}: {
-  name: string
-  city: string
-  status: string
-  squareMetersOfGreenery: number
-}) =>
-  name !== '' && city !== '' && status !== '' && squareMetersOfGreenery !== null
 
 const AddProjectForm: FunctionComponent = () => {
   const allCities = useContext(CitiesContext)
   const [name, setName] = useState('')
-  const [city, setCity] = useState('')
+  const [cityId, setCityId] = useState('')
+  const [location, setLocation] = useState('')
   const [status, setStatus] = useState('')
   const [squareMetersOfGreenery, setSquareMetersOfGreenery] = useState(0)
+  const { addProject } = useContext(ProjectsContext)
+
+  const formValid = () =>
+    name !== '' &&
+    cityId !== '' &&
+    status === ('active' || 'proposed' || 'building') &&
+    location !== '' &&
+    squareMetersOfGreenery > 0
+
   const onFormSubmit = (e: FormEvent) => {
     e.preventDefault()
-    if (formValid({ name, city, status, squareMetersOfGreenery })) {
-      // ajax request with callback tha sets the state
-      alert(
-        `Submitting form with name: ${name} and squareMetersOfGreenery: ${squareMetersOfGreenery}`
-      )
-      // const createProject = async () => {
-      //   const projectsData = await db.collection('projects').add({
-      //     name: '',
-      //     location: '',
-      //     city: '',
-      //     status: '',
-      //     squareMetersOfGreenery: 2,
-      //   })
-      // }
-      //let offsetTarget = emissions * OFFSET_TARGET_PER_KG_OF_CO2
+    if (formValid()) {
+      addProject({
+        name,
+        cityId,
+        status: status as ProjectInterface['status'],
+        location,
+        squareMetersOfGreenery,
+      })
     }
   }
+
   return (
     <MainLayout>
       <StyledAddProjectForm>
@@ -119,7 +112,7 @@ const AddProjectForm: FunctionComponent = () => {
                 <label htmlFor="input-name">Select a name:</label>
                 <br />
                 <input
-                  type="name"
+                  type="text"
                   id="input-name"
                   name="name"
                   placeholder="Project's Name"
@@ -136,7 +129,7 @@ const AddProjectForm: FunctionComponent = () => {
                   name="city"
                   id="city-select"
                   onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-                    setCity(e.target.value)
+                    setCityId(e.target.value)
                   }
                 >
                   <option value="">Please select a city</option>
@@ -148,11 +141,26 @@ const AddProjectForm: FunctionComponent = () => {
                 </select>
               </div>
               <div className="individualInput">
+                <label htmlFor="input-name">Select a Location:</label>
+                <br />
+                <input
+                  type="text"
+                  id="input-name"
+                  name="location"
+                  placeholder="Project's Location"
+                  value={location}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setLocation(e.target.value)
+                  }
+                />
+              </div>
+              <div className="individualInput">
                 <label htmlFor="status-select">Select building status:</label>
                 <br />
                 <select
                   name="status"
                   id="status-select"
+                  value={status}
                   onChange={(e: ChangeEvent<HTMLSelectElement>) =>
                     setStatus(e.target.value)
                   }
