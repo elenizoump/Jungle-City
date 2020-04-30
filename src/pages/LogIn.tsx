@@ -1,7 +1,6 @@
 import React, {
   FunctionComponent,
   useState,
-  useEffect,
   useContext,
   FormEvent,
   ChangeEvent,

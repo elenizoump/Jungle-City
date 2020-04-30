@@ -7,7 +7,7 @@ import React, {
 import MainLayout from '../layouts/MainLayout'
 import styled from 'styled-components/macro'
 
-const OFFSET_TARGET_PER_KG_OF_CO2 = 0.047794
+// const OFFSET_TARGET_PER_KG_OF_CO2 = 0.047794
 
 const StyledCityEmissionsForm = styled.div`
   height: 100%;
@@ -84,7 +84,7 @@ const CityEmissionsForm: FunctionComponent = () => {
       // ajax request with callback tha sets the state
       alert(`Submitting form with city: ${city} and emissions: ${emissions}`)
       // set logged in
-      let offsetTarget = emissions * OFFSET_TARGET_PER_KG_OF_CO2
+      // let offsetTarget = emissions * OFFSET_TARGET_PER_KG_OF_CO2
     }
   }
 
@@ -120,7 +120,6 @@ const CityEmissionsForm: FunctionComponent = () => {
                   type="number"
                   id="input-emissions"
                   name="emissions"
-                  // placeholder="City's Emissions"
                   value={emissions}
                   onChange={(e: ChangeEvent<HTMLInputElement>) =>
                     setEmissions(Number(e.target.value))

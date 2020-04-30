@@ -85,7 +85,9 @@ const App: FunctionComponent = () => {
       })
   }
 
-  const addProject = async (project: Omit<ProjectInterface, 'id'>) => {
+  const addProject = async (
+    project: Omit<ProjectInterface, 'id' | 'userId' | 'userName' | 'cityName'>
+  ) => {
     if (!user) {
       return
     }
@@ -119,16 +121,29 @@ const App: FunctionComponent = () => {
       return
     }
 
-    const userDocs = await db
-      .collection('users')
-      .where('userId', '==', user.uid)
-      .get()
+    //const dbProjects = await db.collection('users').get()
 
-    const userProjects = await userDocs.docs[0].ref.collection('projects').get()
+    const dbProjects = await db.collectionGroup('projects').get()
+    const dbUsers = await db.collection('users').get()
+    const usersArray: {
+      id: string
+      userId: string
+      firstName: string
+      lastName: string
+    }[] = []
+
+    dbUsers.forEach((user) => {
+      usersArray.push({
+        id: user.id,
+        userId: user.data().userId,
+        firstName: user.data().name,
+        lastName: user.data().lastName,
+      })
+    })
 
     const allProjects: ProjectInterface[] = []
 
-    userProjects.forEach((project) => {
+    dbProjects.forEach(async (project) => {
       const {
         name,
         location,
@@ -136,11 +151,18 @@ const App: FunctionComponent = () => {
         status,
         squareMetersOfGreenery,
       } = project.data() as ProjectInterface
+      console.log(usersArray)
+      const owner = usersArray?.find(
+        (user) => user.id === project?.ref?.parent?.parent?.id
+      ) || { id: '', userId: '', firstName: '', lastName: '' }
       allProjects.push({
         id: project.id,
+        userName: `${owner.firstName} ${owner.lastName}`,
+        userId: owner.userId,
         name,
         location,
         cityId,
+        cityName: cities.find((city) => city.id === cityId)?.name ?? '',
         status,
         squareMetersOfGreenery,
       })
@@ -166,8 +188,10 @@ const App: FunctionComponent = () => {
   }, [])
 
   useEffect(() => {
-    getProjects()
-  }, [user])
+    if (cities.length > 0 && user) {
+      getProjects()
+    }
+  }, [user, cities])
 
   return (
     <AuthContext.Provider
