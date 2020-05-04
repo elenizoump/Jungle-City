@@ -1,11 +1,7 @@
-import React, { FunctionComponent, useContext } from 'react'
+import React, { FunctionComponent } from 'react'
 import styled from 'styled-components/macro'
-import ProjectsContext, {
-  ProjectInterface,
-  ProjectsContextInterface,
-} from '../projectsContext'
+import { ProjectsContextInterface } from '../projectsContext'
 import Project from '../components/Project'
-import CitiesContext from '../citiesContext'
 
 interface ProjectsListProps {
   projects: ProjectsContextInterface['projects']

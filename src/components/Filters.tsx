@@ -1,15 +1,13 @@
 import React, {
-  FunctionComponent,
-  useState,
   ChangeEvent,
+  FormEvent,
+  FunctionComponent,
   useContext,
 } from 'react'
-import Select from 'react-select'
-import ProjectsContext from '../projectsContext'
-import CitiesContext from '../citiesContext'
 import styled from 'styled-components/macro'
-import { FilterManagerContext } from '../pages/AllProjects'
 import AuthContext from '../authContext'
+import CitiesContext from '../citiesContext'
+import { FilterManagerContext } from '../pages/AllProjects'
 
 const StyledFilters = styled.div`
   form {
@@ -20,35 +18,49 @@ const StyledFilters = styled.div`
   }
 `
 
+const fuzzyMatches = ({
+  searchString,
+  sourceString,
+}: {
+  searchString: string
+  sourceString: string
+}): boolean => {
+  const fuzzyCompatibleSearchString = searchString
+    .replace(' ', '')
+    .toLowerCase()
+
+  const fuzzyCompatibleSourceString = sourceString
+    .replace(' ', '')
+    .toLowerCase()
+
+  let startingIndex = 0
+
+  const fuzzyCompatibleSearchStringArray = fuzzyCompatibleSearchString.split('')
+
+  for (let i = 0; i < fuzzyCompatibleSearchStringArray.length; i++) {
+    const foundAtIndex = fuzzyCompatibleSourceString.indexOf(
+      fuzzyCompatibleSearchStringArray[i],
+      startingIndex
+    )
+
+    if (foundAtIndex === -1) {
+      return false
+    }
+
+    startingIndex = foundAtIndex + 1
+  }
+
+  return true
+}
+
 const Filters: FunctionComponent = () => {
   const { user } = useContext(AuthContext)
-  const { projects } = useContext(ProjectsContext)
   const allCities = useContext(CitiesContext)
-  const [cityId, setCityId] = useState('')
-  const [userName, setUserName] = useState('')
-
-  const usersOptions = projects.map((project) => project.userName)
-
   const { addFilter, removeFilter } = useContext(FilterManagerContext)
-
-  //   import React, { Component } from 'react'
-  // import Select from 'react-select'
-
-  // const options = [
-  //   { value: 'chocolate', label: 'Chocolate' },
-  //   { value: 'strawberry', label: 'Strawberry' },
-  //   { value: 'vanilla', label: 'Vanilla' }
-  // ]
-
-  // const MyComponent = () => (
-  //   <<Select options={options} />>
-  // )
-
-  // isSearchable
 
   return (
     <StyledFilters>
-      <form className="filters">
+      <form className="filters" onSubmit={(e: FormEvent) => e.preventDefault()}>
         <div className="individualInput">
           <select
             name="city"
@@ -94,6 +106,29 @@ const Filters: FunctionComponent = () => {
           />
           <label htmlFor="personal-projects">My Projects</label>
           <br />
+        </div>
+
+        <div className="individualInput">
+          <input
+            type="text"
+            name="search-userName"
+            id="search-userName"
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              const filterValue = e.target.value
+              if (filterValue === '') {
+                removeFilter('search-userName')
+              } else {
+                addFilter({
+                  id: 'search-userName',
+                  test: ({ userName }) =>
+                    fuzzyMatches({
+                      searchString: filterValue,
+                      sourceString: userName,
+                    }),
+                })
+              }
+            }}
+          />
         </div>
       </form>
     </StyledFilters>
