@@ -174,8 +174,7 @@ const App: FunctionComponent = () => {
     })
     console.table(allProjects)
     setProjects(allProjects)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [user, cities])
 
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
