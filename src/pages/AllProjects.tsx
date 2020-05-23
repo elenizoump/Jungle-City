@@ -1,10 +1,7 @@
 import React, {
   FunctionComponent,
-  FormEvent,
   useState,
-  ChangeEvent,
   useContext,
-  useCallback,
   createContext,
 } from 'react'
 import MainLayout from '../layouts/MainLayout'
@@ -104,7 +101,7 @@ const AllProjects: FunctionComponent = () => {
     return projects.filter((item) => filters.every(({ test }) => test(item)))
   }
 
-  const addFilter = useCallback((filter: Filter) => {
+  const addFilter = (filter: Filter) => {
     // Check if filter is there, if yes, replace it
     // otherwise add new filter
     const filtersCopy = [...filters]
@@ -117,12 +114,12 @@ const AllProjects: FunctionComponent = () => {
     }
 
     setFilters(filtersCopy)
-  }, [])
+  }
 
-  const removeFilter = useCallback((filterId: Filter['id']) => {
+  const removeFilter = (filterId: Filter['id']) => {
     // Remove filter by id
     setFilters(filters.filter(({ id }) => id !== filterId))
-  }, [])
+  }
 
   return (
     <MainLayout>
