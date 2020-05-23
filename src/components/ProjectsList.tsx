@@ -8,7 +8,15 @@ interface ProjectsListProps {
 }
 
 const StyledProjectsList = styled.div`
-  background-color: purple;
+  div:first-child {
+    margin-top: 0;
+  }
+  width: 96%;
+  height: 95%;
+  margin: 2%;
+  border-radius: 14px;
+  background-color: transparent;
+  overflow-y: auto;
 `
 
 const ProjectsList: FunctionComponent<ProjectsListProps> = ({ projects }) => (

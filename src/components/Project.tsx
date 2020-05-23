@@ -4,7 +4,43 @@ import { ProjectInterface } from '../projectsContext'
 import buildingIcon from '../images/Building_Icon.png'
 
 const StyledProject = styled.div`
-  background-color: purple;
+  display: flex;
+  box-shadow: 3px 2px 5px rgb(72, 96, 94);
+  flex-direction: row;
+  background-color: white;
+  border-radius: 14px;
+  margin-bottom: 2%;
+  padding: 2%;
+  @media (min-width: 1093px) {
+    margin: 12px 8px 12px 4px;
+  }
+
+  img {
+    height: 100px;
+    /* width: 87px; */
+    margin: 0px auto;
+    padding: 1px;
+    border-radius: 8px;
+    border: 1px solid rgb(0, 190, 147);
+    @media (min-width: 1093px) {
+      margin: 0px 18px;
+      padding: 2px;
+    }
+  }
+  .projectText {
+    padding: 1px;
+    @media (min-width: 1093px) {
+      padding-left: 45px;
+    }
+    h5 {
+      margin: 1px;
+      font-weight: 400;
+      span {
+        font-weight: 500;
+        color: rgb(9, 141, 111);
+      }
+    }
+  }
 `
 interface ProjectProps extends ProjectInterface {
   cityName: string
@@ -21,13 +57,25 @@ const Project: FunctionComponent<ProjectProps> = ({
 }) => (
   <StyledProject>
     <img src={buildingIcon} alt="Building Icon" />
-    <div>{cityName}</div>
-    <div>{location}</div>
-    <div>{projectName}</div>
-    <div>{status}</div>
-    <div>Lead Architect:{userName}</div>
-    <div>
-      {squareMetersOfGreenery}m<sup>2</sup>
+    <div className="projectText">
+      <h5>
+        <span>City:</span> {cityName}
+      </h5>
+      <h5>
+        <span>Area:</span> {location}
+      </h5>
+      <h5>
+        <span>Building Type:</span> {projectName}
+      </h5>
+      <h5>
+        <span>Area of Greenery:</span> {squareMetersOfGreenery}m<sup>2</sup>
+      </h5>
+      <h5>
+        <span>Status:</span> {status}
+      </h5>
+      <h5 className="architect-name">
+        <span>Lead Architect:</span> {userName}
+      </h5>
     </div>
   </StyledProject>
 )

@@ -10,7 +10,6 @@ import ProgressBar from '../components/ProgressBar'
 import ProjectsList from '../components/ProjectsList'
 import Filters from '../components/Filters'
 import ProjectsContext, { ProjectInterface } from '../projectsContext'
-
 const StyledAllProjects = styled.div`
   height: calc(100vh - 70px);
   width: 100%;
@@ -61,12 +60,25 @@ const StyledAllProjects = styled.div`
     border-radius: 14px;
     display: flex;
     justify-content: center;
+    @media (min-width: 1093px) {
+      height: 560px;
+    }
   }
 
   .mapLocation {
     grid-area: mapLocation;
     background-color: rgba(255, 255, 255, 0.79);
     border-radius: 14px;
+    @media (min-width: 1093px) {
+      height: 560px;
+    }
+    .mapContents {
+      width: 96%;
+      height: 95%;
+      margin: 2%;
+      border-radius: 14px;
+      background-color: transparent;
+    }
   }
 `
 // const OFFSET_TARGET_PER_KG_OF_CO2 = 0.047794
@@ -135,7 +147,17 @@ const AllProjects: FunctionComponent = () => {
           <div className="contents-area">
             <ProjectsList projects={filteredProjects()} />
           </div>
-          <div className="mapLocation"></div>
+          <div className="mapLocation">
+            <div className="mapContents">
+              <iframe
+                title="googleMaps"
+                width="100%"
+                height="100%"
+                style={{ border: 0, borderRadius: '10px' }}
+                src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJYbIpOhmuEmsR-8e57g0qOtM&key=AIzaSyCFtohuPtbhqHCrxwKSmgCkIW7oh7dRhZA"
+              />
+            </div>
+          </div>
         </StyledAllProjects>
       </FilterManagerContext.Provider>
     </MainLayout>

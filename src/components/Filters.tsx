@@ -3,11 +3,14 @@ import React, {
   FormEvent,
   FunctionComponent,
   useContext,
+  // useState,
+  // useEffect,
 } from 'react'
 import styled from 'styled-components/macro'
 import AuthContext from '../authContext'
 import CitiesContext from '../citiesContext'
 import { FilterManagerContext } from '../pages/AllProjects'
+// const [searchTerm, setSearchTerm] = useState('')
 
 const StyledFilters = styled.div`
   form {
@@ -52,6 +55,22 @@ const fuzzyMatches = ({
 
   return true
 }
+
+// const useDebounce = (value: string, delay: number) => {
+//   const [debouncedValue, setDebouncedValue] = useState(value)
+
+//   useEffect(() => {
+//     const debounceHandler = setTimeout(() => {
+//       setDebouncedValue(value)
+//     }, delay)
+//     return () => {
+//       clearTimeout(debounceHandler)
+//     }
+//   }, [value, delay])
+//   return debouncedValue
+// }
+
+// const debouncedSearchTerm = useDebounce(searchTerm, 300)
 
 const Filters: FunctionComponent = () => {
   const { user } = useContext(AuthContext)
