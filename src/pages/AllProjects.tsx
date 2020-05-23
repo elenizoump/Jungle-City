@@ -16,9 +16,9 @@ const StyledAllProjects = styled.div`
   padding: 1rem;
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   grid-gap: 10px;
-  grid-template-rows: 1fr 1fr 6fr;
+  grid-template-rows: repeat(2, auto) 1fr;
   grid-template-areas:
     'header header '
     'filters filters '
@@ -55,11 +55,12 @@ const StyledAllProjects = styled.div`
   }
 
   .contents-area {
+    overflow-y: auto;
     grid-area: contents;
     background-color: rgba(255, 255, 255, 0.79);
     border-radius: 14px;
-    display: flex;
-    justify-content: center;
+    /* display: flex;
+    justify-content: center; */
     @media (min-width: 1093px) {
       /* height: 560px; */
     }
