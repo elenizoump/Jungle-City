@@ -11,11 +11,12 @@ const StyledProjectsList = styled.div`
   div:first-child {
     margin-top: 0;
   }
-  width: 96%;
-  height: 95%;
-  margin: 2%;
+  width: 100%;
+  height: 100%;
+  padding: 2%;
   border-radius: 14px;
   background-color: transparent;
+  box-sizing: border-box;
   overflow-y: auto;
 `
 

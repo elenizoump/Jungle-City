@@ -61,7 +61,7 @@ const StyledAllProjects = styled.div`
     display: flex;
     justify-content: center;
     @media (min-width: 1093px) {
-      height: 560px;
+      /* height: 560px; */
     }
   }
 
@@ -70,14 +70,15 @@ const StyledAllProjects = styled.div`
     background-color: rgba(255, 255, 255, 0.79);
     border-radius: 14px;
     @media (min-width: 1093px) {
-      height: 560px;
+      /* height: 560px; */
     }
     .mapContents {
-      width: 96%;
-      height: 95%;
-      margin: 2%;
+      width: 100%;
+      height: 100%;
+      padding: 2%;
       border-radius: 14px;
       background-color: transparent;
+      box-sizing: border-box;
     }
   }
 `
