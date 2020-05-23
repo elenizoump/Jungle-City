@@ -75,7 +75,9 @@ const fuzzyMatches = ({
 const Filters: FunctionComponent = () => {
   const { user } = useContext(AuthContext)
   const allCities = useContext(CitiesContext)
-  const { addFilter, removeFilter } = useContext(FilterManagerContext)
+  const { addFilter, removeFilter, changeSelectedCityId } = useContext(
+    FilterManagerContext
+  )
 
   return (
     <StyledFilters>
@@ -94,6 +96,7 @@ const Filters: FunctionComponent = () => {
                   test: ({ cityId }) => cityId === filterValue,
                 })
               }
+              changeSelectedCityId(filterValue)
             }}
           >
             <option value="">All cities</option>

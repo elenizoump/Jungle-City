@@ -57,6 +57,11 @@ const ProgressBar: FunctionComponent<ProgressBarProps> = ({
     }
     setStyle(newStyle)
   }, 1000)
+
+  if (amountCompleted === -1) {
+    return null
+  }
+
   return (
     <StyledProgressBar>
       <div className="progress-empty">

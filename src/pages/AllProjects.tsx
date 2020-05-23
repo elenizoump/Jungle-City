@@ -3,6 +3,8 @@ import React, {
   useState,
   useContext,
   createContext,
+  useEffect,
+  useReducer,
 } from 'react'
 import MainLayout from '../layouts/MainLayout'
 import styled from 'styled-components/macro'
@@ -10,6 +12,7 @@ import ProgressBar from '../components/ProgressBar'
 import ProjectsList from '../components/ProjectsList'
 import Filters from '../components/Filters'
 import ProjectsContext, { ProjectInterface } from '../projectsContext'
+import CitiesContext from '../citiesContext'
 const StyledAllProjects = styled.div`
   height: calc(100vh - 70px);
   width: 100%;
@@ -83,8 +86,10 @@ const StyledAllProjects = styled.div`
     }
   }
 `
-// const OFFSET_TARGET_PER_KG_OF_CO2 = 0.047794
+//
 // let offsetTarget = emissions * OFFSET_TARGET_PER_KG_OF_CO2
+//1. current emmision for city
+//2. m2 per project + calc
 
 export interface Filter {
   id: string
@@ -94,6 +99,7 @@ export interface Filter {
 export interface FilterManagerContextInterface {
   addFilter: (filter: Filter) => void
   removeFilter: (filterId: Filter['id']) => void
+  changeSelectedCityId: (cityId: ProjectInterface['cityId']) => void
 }
 
 export const FilterManagerContext = createContext<
@@ -101,10 +107,16 @@ export const FilterManagerContext = createContext<
 >({
   addFilter: () => {},
   removeFilter: () => {},
+  changeSelectedCityId: () => {},
 })
 
 const AllProjects: FunctionComponent = () => {
+  const OFFSET_TARGET_PER_KG_OF_CO2 = 0.047794
   const { projects } = useContext(ProjectsContext)
+  const cities = useContext(CitiesContext)
+  const [selectedCityId, setSelectedCityId] = useState<
+    ProjectInterface['cityId']
+  >('')
   const [filters, setFilters] = useState<Filter[]>([])
 
   const filteredProjects = () => {
@@ -135,13 +147,44 @@ const AllProjects: FunctionComponent = () => {
     setFilters(filters.filter(({ id }) => id !== filterId))
   }
 
+  const changeSelectedCityId = (cityId: ProjectInterface['cityId']) => {
+    setSelectedCityId(cityId)
+  }
+
+  const getPercentage = (): number => {
+    if (!selectedCityId) {
+      return -1
+    }
+
+    return (
+      Math.round(
+        ((projects.reduce((accumulator, project) => {
+          if (project.cityId !== selectedCityId) {
+            return accumulator
+          }
+
+          return accumulator + project.squareMetersOfGreenery
+        }, 0) /
+          (cities.find((city) => city.id === selectedCityId)
+            ?.currentEmissionsPerYear ?? 1)) *
+          OFFSET_TARGET_PER_KG_OF_CO2 *
+          100 +
+          Number.EPSILON) *
+          100
+      ) / 100
+    )
+  }
+
   return (
     <MainLayout>
-      <FilterManagerContext.Provider value={{ addFilter, removeFilter }}>
+      <FilterManagerContext.Provider
+        value={{ addFilter, removeFilter, changeSelectedCityId }}
+      >
         <StyledAllProjects>
           <div className="header-area">
             <h1>Target: This is the target </h1>
-            <ProgressBar amountCompleted={10} />
+            {console.log(getPercentage())}
+            <ProgressBar amountCompleted={getPercentage()} />
           </div>
           <div className="filters-area">
             <Filters />
