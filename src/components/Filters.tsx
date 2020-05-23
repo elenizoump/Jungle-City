@@ -92,8 +92,6 @@ const Filters: FunctionComponent = () => {
             name="personal-projects"
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               const isChecked = e.target.checked
-              console.log(isChecked)
-              console.log(user?.uid)
               if (!isChecked) {
                 removeFilter('personal-projects')
               } else {

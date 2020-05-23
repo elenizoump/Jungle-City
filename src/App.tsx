@@ -1,4 +1,9 @@
-import React, { FunctionComponent, useState, useEffect } from 'react'
+import React, {
+  FunctionComponent,
+  useState,
+  useEffect,
+  useCallback,
+} from 'react'
 import { createGlobalStyle, ThemeProvider } from 'styled-components/macro'
 import theme from './themes'
 import { Theme } from './themes/types'
@@ -116,7 +121,7 @@ const App: FunctionComponent = () => {
     setCities(allCities)
   }
 
-  const getProjects = async () => {
+  const getProjects = useCallback(async () => {
     if (!user) {
       return
     }
@@ -169,7 +174,8 @@ const App: FunctionComponent = () => {
     })
     console.table(allProjects)
     setProjects(allProjects)
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
@@ -191,7 +197,7 @@ const App: FunctionComponent = () => {
     if (cities.length > 0 && user) {
       getProjects()
     }
-  }, [user, cities])
+  }, [user, cities, getProjects])
 
   return (
     <AuthContext.Provider

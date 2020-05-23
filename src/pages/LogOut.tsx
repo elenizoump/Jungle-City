@@ -7,7 +7,7 @@ const LogOut: FunctionComponent = () => {
 
   useEffect(() => {
     signOut()
-  }, [])
+  }, [signOut])
 
   return <WhenLoggedIn>Logging you out</WhenLoggedIn>
 }
