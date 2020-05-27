@@ -109,11 +109,16 @@ const App: FunctionComponent = () => {
     const allCities: CityInterface[] = []
 
     citiesData.forEach((document) => {
-      const { name, currentEmissionsPerYear } = document.data() as CityInterface
+      const {
+        name,
+        currentEmissionsPerYear,
+        mapId,
+      } = document.data() as CityInterface
       allCities.push({
         id: document.id,
         name,
         currentEmissionsPerYear,
+        mapId,
       })
     })
 

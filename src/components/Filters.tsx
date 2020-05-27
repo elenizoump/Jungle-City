@@ -133,6 +133,7 @@ const Filters: FunctionComponent = () => {
             type="text"
             name="search-userName"
             id="search-userName"
+            placeholder="Search by Architect"
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               const filterValue = e.target.value
               if (filterValue === '') {

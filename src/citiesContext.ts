@@ -4,6 +4,7 @@ export interface CityInterface {
   id: string
   name: string
   currentEmissionsPerYear: number
+  mapId: string
 }
 
 export type CitiesContextInterface = CityInterface[]

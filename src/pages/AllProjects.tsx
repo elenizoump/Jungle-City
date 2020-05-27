@@ -175,6 +175,16 @@ const AllProjects: FunctionComponent = () => {
     )
   }
 
+  const getMapUrl = () => {
+    if (!selectedCityId) {
+      return 'https://www.google.com/maps/d/embed?mid=10dow9xbJ22PIuSACp-5dU7akjCemdCzd'
+    }
+    return (
+      cities.find((city) => city.id === selectedCityId)?.mapId ??
+      'https://www.google.com/maps/d/embed?mid=10dow9xbJ22PIuSACp-5dU7akjCemdCzd'
+    )
+  }
+
   return (
     <MainLayout>
       <FilterManagerContext.Provider
@@ -194,12 +204,23 @@ const AllProjects: FunctionComponent = () => {
           </div>
           <div className="mapLocation">
             <div className="mapContents">
-              <iframe
+              {/* <iframe
                 title="googleMaps"
                 width="100%"
                 height="100%"
                 style={{ border: 0, borderRadius: '10px' }}
                 src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJYbIpOhmuEmsR-8e57g0qOtM&key=AIzaSyCFtohuPtbhqHCrxwKSmgCkIW7oh7dRhZA"
+              /> */}
+              <iframe
+                title="googleMaps"
+                src={getMapUrl()}
+                // src="https://www.google.com/maps/d/embed?mid=14wBtrLP2Sn09lZR9oxQe0yCohPna8jEA"
+                // src="https://www.google.com/maps/d/embed?mid=1XXO8angE0F_7Di_xxQUNcFFFAia0nL1-"
+                // src="https://www.google.com/maps/d/embed?mid=1qXlNv-dgSGTW6E5pWe2m6YOYo32kSR0Q"
+                // src="https://www.google.com/maps/d/embed?mid=10dow9xbJ22PIuSACp-5dU7akjCemdCzd"
+                width="100%"
+                height="100%"
+                style={{ border: 0, borderRadius: '10px' }}
               />
             </div>
           </div>
