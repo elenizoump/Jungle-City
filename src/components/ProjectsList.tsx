@@ -15,6 +15,7 @@ const StyledProjectsList = styled.div`
   border-radius: 14px;
   background-color: transparent;
   box-sizing: border-box;
+  overflow-y: auto;
 `
 
 const ProjectsList: FunctionComponent<ProjectsListProps> = ({ projects }) => (

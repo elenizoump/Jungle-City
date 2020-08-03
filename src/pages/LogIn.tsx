@@ -8,20 +8,18 @@ import React, {
 import styled from 'styled-components/macro'
 import WhenLoggedOut from '../components/WhenLoggedOut'
 import AuthContext from '../authContext'
+import { Link } from 'react-router-dom'
 
 const StyledLogInPage = styled.div`
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
+  display: grid;
+  justify-items: center;
   align-items: center;
-  padding: 10rem;
 
   .logInContents {
-    background-color: rgba(255, 255, 255, 0.92);
+    background-color: white;
     color: ${(props) => props.theme.primary.greenTextColor};
     border-radius: 10px;
     width: 50%;
@@ -29,52 +27,76 @@ const StyledLogInPage = styled.div`
     margin-right: auto;
     margin-left: auto;
     box-sizing: border-box;
-    text-align: center;
+
+    form {
+      width: 100%;
+      max-width: 70%;
+      margin: 2rem auto 0 auto;
+      > * {
+        margin-top: 1.8rem;
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+    }
+
     h1 {
-      font-size: 2.5rem;
-      font-weight: 800;
+      margin-top: 0;
+      font-size: 3rem;
+      font-weight: 700;
+      text-align: center;
     }
     .gettingStarted {
-      font-weight: 500;
+      font-weight: 300;
+      margin: 1.2rem 0 auto;
     }
     .individualInput {
-      margin-bottom: 1.2rem;
       label {
-        font-size: 1.2rem;
-        font-weight: 500;
-        margin: 1rem;
+        font-size: 1.1rem;
+        font-weight: 700;
+        text-align: left !important;
+        display: block;
       }
 
       input {
-        background-color: white;
-        border-color: ${(props) => props.theme.primary.buttonbackgroundColor};
-        border-radius: 7px;
+        background-color: rgba(199, 238, 226, 0.3);
+        margin-top: 0.3rem;
+        border: none;
+        border-radius: 5px;
         color: ${(props) => props.theme.primary.buttonbackgroundColor};
-        font-size: 1rem;
-        margin: 0.5rem;
+        font-size: 2rem;
+        display: block;
+        width: 100%;
+      }
+
+      input :focus {
+        outline-color: ${(props) => props.theme.primary.buttonbackgroundColor};
       }
     }
   }
 
-  .button {
+  button {
     background-color: ${(props) => props.theme.primary.buttonbackgroundColor};
     border: 2px ${(props) => props.theme.primary.buttonbackgroundColor};
-    border-radius: 10px;
+    border-radius: 8px;
     box-sizing: border-box;
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
     text-decoration: none;
     color: white;
-    margin-top: 10%;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  h3 {
+    font-weight: 500;
+  }
+
+  a {
+    display: inline;
+    color: ${(props) => props.theme.primary.greenTextColor};
+    font-weight: 700;
   }
 `
-
-// const StyledSectionP = styled.p`
-//   font-size: 1rem;
-//   font-weight: 400;
-//   line-height: 1.5;
-// `
-
-// action="/authentication/log-in" method="POST"
 
 const formValid = ({ email, password }: { email: string; password: string }) =>
   email !== '' && password !== ''
@@ -104,40 +126,44 @@ const LogIn: FunctionComponent = () => {
     <WhenLoggedOut>
       <StyledLogInPage>
         <div className="logInContents">
+          <h1 className="gettingStarted">welcome to</h1>
+          <h1>JUNGLE CITY</h1>
           <form onSubmit={onFormSubmit}>
-            <h1 className="gettingStarted">Getting Started</h1>
-            <h1>SIGN IN</h1>
-            <div className="InputContainer">
-              <div className="individualInput">
-                <label htmlFor="input-email">Email</label>
-                <br />
-                <input
-                  type="email"
-                  id="input-email"
-                  name="email"
-                  placeholder="Your Email"
-                  value={email}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    setEmail(e.target.value)
-                  }
-                />
-              </div>
-              <div className="individualInput">
-                <label htmlFor="input-password">Password</label>
-                <br />
-                <input
-                  type="password"
-                  id="input-password"
-                  name="password"
-                  placeholder="Your password"
-                  value={password}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    setPassword(e.target.value)
-                  }
-                />
-              </div>
+            <div className="individualInput">
+              <label htmlFor="input-email">E-MAIL</label>
+              <input
+                type="email"
+                id="input-email"
+                name="email"
+                //placeholder="Your Email"
+                value={email}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setEmail(e.target.value)
+                }
+              />
             </div>
-            <button type="submit">Sign in</button>
+            <div className="individualInput">
+              <label htmlFor="input-password">PASSWORD</label>
+              <input
+                type="password"
+                id="input-password"
+                name="password"
+                //placeholder="Your password"
+                value={password}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setPassword(e.target.value)
+                }
+              />
+            </div>
+            <button className="signInButton" type="submit">
+              SIGN IN
+            </button>
+            <h3>
+              Don't have an account yet?{' '}
+              <Link to="/authentication/sign-un" className="get-started">
+                SIGN UP
+              </Link>
+            </h3>
           </form>
         </div>
       </StyledLogInPage>

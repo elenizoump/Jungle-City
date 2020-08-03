@@ -13,6 +13,9 @@ const StyledNavbar = styled.nav`
   background-color: rgba(0, 189, 147, 0.82);
   justify-content: space-between;
   font-size: 1.2rem;
+  /* position: absolute;
+  top: 0;
+  left: 0; */
 
   .Logo {
     height: 100%;

@@ -13,19 +13,19 @@ import ProjectsList from '../components/ProjectsList'
 import Filters from '../components/Filters'
 import ProjectsContext, { ProjectInterface } from '../projectsContext'
 import CitiesContext from '../citiesContext'
+
 const StyledAllProjects = styled.div`
-  height: calc(100vh - 70px);
   width: 100%;
-  padding: 1rem;
-  box-sizing: border-box;
+  height: calc(100vh - 70px);
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 10px;
-  grid-template-rows: repeat(2, auto) 1fr;
-  grid-template-areas:
-    'header header '
-    'filters filters '
-    'contents  mapLocation';
+  align-items: center;
+  justify-items: center;
+
+  .projects-wrapper {
+    width: 90%;
+    display: inline-block;
+    position: relative;
+  }
 
   /* padding: 4.2rem; */
   h1 {
@@ -37,7 +37,7 @@ const StyledAllProjects = styled.div`
   .header-area {
     padding: 0.5rem;
     grid-area: header;
-    background-color: rgba(255, 255, 255, 0.79);
+    /* background-color: rgba(255, 255, 255, 0.79); */
     border-radius: 14px;
     flex-direction: column;
     display: flex;
@@ -52,37 +52,48 @@ const StyledAllProjects = styled.div`
   }
   .filters-area {
     padding: 0.5rem;
-    grid-area: filters;
-    background-color: rgba(255, 255, 255, 0.79);
+    /* background-color: rgba(255, 255, 255, 0.79); */
     border-radius: 14px;
   }
 
   .contents-area {
-    overflow-y: auto;
-    grid-area: contents;
-    background-color: rgba(255, 255, 255, 0.79);
-    border-radius: 14px;
-    /* display: flex;
-    justify-content: center; */
+    /* overflow-y: auto; */
+    box-sizing: border-box;
+    background-color: #f3f5f7;
+    border-radius: 7px 0 0 7px;
+    padding: 25px;
+    height: calc(80vh - 70px);
+    width: 50%;
     @media (min-width: 1093px) {
       /* height: 560px; */
     }
   }
 
   .mapLocation {
-    grid-area: mapLocation;
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    box-sizing: border-box;
+    top: 0;
+    right: 0;
     background-color: rgba(255, 255, 255, 0.79);
-    border-radius: 14px;
+    border-radius: 0 7px 7px 0;
     @media (min-width: 1093px) {
       /* height: 560px; */
     }
     .mapContents {
       width: 100%;
       height: 100%;
-      padding: 2%;
       border-radius: 14px;
       background-color: transparent;
       box-sizing: border-box;
+
+      iframe {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        box-sizing: border-box;
+      }
     }
   }
 `
@@ -191,37 +202,37 @@ const AllProjects: FunctionComponent = () => {
         value={{ addFilter, removeFilter, changeSelectedCityId }}
       >
         <StyledAllProjects>
-          <div className="header-area">
-            <h1>Target: This is the target </h1>
-            {console.log(getPercentage())}
-            <ProgressBar amountCompleted={getPercentage()} />
-          </div>
-          <div className="filters-area">
-            <Filters />
-          </div>
-          <div className="contents-area">
-            <ProjectsList projects={filteredProjects()} />
-          </div>
-          <div className="mapLocation">
-            <div className="mapContents">
-              {/* <iframe
+          <div className="projects-wrapper">
+            <div className="contents-area">
+              <div className="header-area">
+                <h1>Target: This is the target </h1>
+                {console.log(getPercentage())}
+                <ProgressBar amountCompleted={getPercentage()} />
+              </div>
+              <div className="filters-area">
+                <Filters />
+              </div>
+              <ProjectsList projects={filteredProjects()} />
+            </div>
+            <div className="mapLocation">
+              <div className="mapContents">
+                {/* <iframe
                 title="googleMaps"
                 width="100%"
                 height="100%"
                 style={{ border: 0, borderRadius: '10px' }}
                 src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJYbIpOhmuEmsR-8e57g0qOtM&key=AIzaSyCFtohuPtbhqHCrxwKSmgCkIW7oh7dRhZA"
               /> */}
-              <iframe
-                title="googleMaps"
-                src={getMapUrl()}
-                // src="https://www.google.com/maps/d/embed?mid=14wBtrLP2Sn09lZR9oxQe0yCohPna8jEA"
-                // src="https://www.google.com/maps/d/embed?mid=1XXO8angE0F_7Di_xxQUNcFFFAia0nL1-"
-                // src="https://www.google.com/maps/d/embed?mid=1qXlNv-dgSGTW6E5pWe2m6YOYo32kSR0Q"
-                // src="https://www.google.com/maps/d/embed?mid=10dow9xbJ22PIuSACp-5dU7akjCemdCzd"
-                width="100%"
-                height="100%"
-                style={{ border: 0, borderRadius: '10px' }}
-              />
+                <iframe
+                  title="googleMaps"
+                  src={getMapUrl()}
+                  // src="https://www.google.com/maps/d/embed?mid=14wBtrLP2Sn09lZR9oxQe0yCohPna8jEA"
+                  // src="https://www.google.com/maps/d/embed?mid=1XXO8angE0F_7Di_xxQUNcFFFAia0nL1-"
+                  // src="https://www.google.com/maps/d/embed?mid=1qXlNv-dgSGTW6E5pWe2m6YOYo32kSR0Q"
+                  // src="https://www.google.com/maps/d/embed?mid=10dow9xbJ22PIuSACp-5dU7akjCemdCzd"
+                  style={{ border: 0, borderRadius: '10px' }}
+                />
+              </div>
             </div>
           </div>
         </StyledAllProjects>

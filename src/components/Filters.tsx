@@ -16,6 +16,7 @@ const StyledFilters = styled.div`
   form {
     flex-direction: row;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
   }

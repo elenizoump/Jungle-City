@@ -5,11 +5,11 @@ import buildingIcon from '../images/Building_Icon.png'
 
 const StyledProject = styled.div`
   display: flex;
-  box-shadow: 3px 2px 5px rgb(72, 96, 94);
+  box-shadow: 3px 2px 5px 0px rgb(147 193 189);
   flex-direction: row;
   background-color: white;
-  border-radius: 14px;
-  margin-bottom: 2%;
+  border-radius: 9px;
+  margin-top: 1.2rem;
   padding: 2%;
   @media (min-width: 1093px) {
     margin: 12px 8px 12px 4px;
