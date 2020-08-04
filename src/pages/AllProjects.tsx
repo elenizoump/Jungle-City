@@ -22,18 +22,25 @@ const StyledAllProjects = styled.div`
   justify-items: center;
 
   .projects-wrapper {
-    width: 90%;
+    width: 95%;
     display: inline-block;
     position: relative;
   }
 
   /* padding: 4.2rem; */
-  h1 {
+  /* h1 {
     margin-top: 1rem;
     color: rgb(28, 60, 53);
     font-weight: 450;
+    text-align: left !important;
+  } */
+  h1 {
+    margin-top: 0;
+    color: ${(props) => props.theme.primary.greenTextColor};
+    font-weight: 700;
+    text-align: left;
+    font-size: 2.2rem;
   }
-
   .header-area {
     padding: 0.5rem;
     grid-area: header;
@@ -43,30 +50,46 @@ const StyledAllProjects = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-
-    h1 {
-      margin-top: 0;
-      color: rgb(28, 60, 53);
-      font-weight: 450;
-    }
   }
   .filters-area {
-    padding: 0.5rem;
     /* background-color: rgba(255, 255, 255, 0.79); */
-    border-radius: 14px;
+    /* border-radius: 14px; */
+    box-sizing: border-box;
+    padding: 0 7px;
   }
+
+  *::placeholder {
+    color: ${(props) => props.theme.primary.buttonbackgroundColor};
+  }
+  /* 
+  
+
+  :-ms-input-placeholder {
+    color: red;
+  }
+
+  ::-ms-input-placeholder {
+    color: red;
+  } */
 
   .contents-area {
     /* overflow-y: auto; */
+    /* position: relative; */
     box-sizing: border-box;
     background-color: #f3f5f7;
     border-radius: 7px 0 0 7px;
     padding: 25px;
-    height: calc(80vh - 70px);
+    height: calc(90vh - 70px);
     width: 50%;
     @media (min-width: 1093px) {
       /* height: 560px; */
     }
+  }
+
+  .projectList-wrapper {
+    width: 100%;
+    max-height: 80%;
+    overflow-y: auto;
   }
 
   .mapLocation {
@@ -204,15 +227,17 @@ const AllProjects: FunctionComponent = () => {
         <StyledAllProjects>
           <div className="projects-wrapper">
             <div className="contents-area">
+              <h1>DASHBOARD</h1>
               <div className="header-area">
-                <h1>Target: This is the target </h1>
                 {console.log(getPercentage())}
                 <ProgressBar amountCompleted={getPercentage()} />
               </div>
               <div className="filters-area">
                 <Filters />
               </div>
-              <ProjectsList projects={filteredProjects()} />
+              <div className="projectList-wrapper">
+                <ProjectsList projects={filteredProjects()} />
+              </div>
             </div>
             <div className="mapLocation">
               <div className="mapContents">

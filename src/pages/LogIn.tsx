@@ -22,8 +22,9 @@ const StyledLogInPage = styled.div`
     background-color: white;
     color: ${(props) => props.theme.primary.greenTextColor};
     border-radius: 10px;
-    width: 50%;
-    padding: 0 3% 5% 3%;
+    width: 40%;
+    /* height: 60%; */
+    padding: 1% 3%;
     margin-right: auto;
     margin-left: auto;
     box-sizing: border-box;
@@ -48,7 +49,8 @@ const StyledLogInPage = styled.div`
     }
     .gettingStarted {
       font-weight: 300;
-      margin: 1.2rem 0 auto;
+      margin: 0;
+      /* margin: 1.2rem 0 auto; */
     }
     .individualInput {
       label {
@@ -64,13 +66,14 @@ const StyledLogInPage = styled.div`
         border: none;
         border-radius: 5px;
         color: ${(props) => props.theme.primary.buttonbackgroundColor};
-        font-size: 2rem;
+        font-size: 1.2rem;
         display: block;
         width: 100%;
+        padding: 0.6rem;
       }
 
       input :focus {
-        outline-color: ${(props) => props.theme.primary.buttonbackgroundColor};
+        outline-color: #6ecab1;
       }
     }
   }
@@ -85,6 +88,11 @@ const StyledLogInPage = styled.div`
     color: white;
     font-size: 1.1rem;
     font-weight: 700;
+  }
+  button :focus {
+    outline: none;
+    border: 2px solid #88d9c5;
+    border-radius: 8px;
   }
 
   h3 {
@@ -160,7 +168,7 @@ const LogIn: FunctionComponent = () => {
             </button>
             <h3>
               Don't have an account yet?{' '}
-              <Link to="/authentication/sign-un" className="get-started">
+              <Link to="/authentication/sign-up" className="get-started">
                 SIGN UP
               </Link>
             </h3>

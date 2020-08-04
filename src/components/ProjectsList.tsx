@@ -11,11 +11,11 @@ const StyledProjectsList = styled.div`
   div:first-child {
     margin-top: 0;
   }
-  padding: 2%;
+  margin-top: 30px;
   border-radius: 14px;
+  padding: 0 7px 7px 7px;
   background-color: transparent;
   box-sizing: border-box;
-  overflow-y: auto;
 `
 
 const ProjectsList: FunctionComponent<ProjectsListProps> = ({ projects }) => (

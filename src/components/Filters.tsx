@@ -14,11 +14,68 @@ import { FilterManagerContext } from '../pages/AllProjects'
 
 const StyledFilters = styled.div`
   form {
-    flex-direction: row;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    align-items: center;
+    
+  }
+  /* input {
+    background-color: rgba(199, 238, 226, 0.3);
+    margin-top: 0.3rem;
+    border: none;
+    border-radius: 5px;
+    color: ${(props) => props.theme.primary.buttonbackgroundColor};
+    font-size: 1.2rem;
+    display: block;
+    width: 100%;
+    padding: 0.4rem;
+  } */
+  label {
+        font-size: 1.1rem;
+        font-weight: 500;
+        /* text-align: left !important; */
+        /* display: inline; */
+        color: ${(props) => props.theme.primary.buttonbackgroundColor};
+      }
+
+  input,
+  select {
+    margin: 0;
+    background-color: rgba(199, 238, 226, 0.3);
+    border: none;
+    border-radius: 5px;
+    color: ${(props) => props.theme.primary.buttonbackgroundColor};
+    font-size: 1.2rem;
+    padding: 0.5rem 20px;
+    /* display: block; */
+    /* width: 100%; */
+    box-sizing: border-box;
+  }
+
+  input :focus, :checked {
+    outline-color: ${(props) => props.theme.primary.buttonbackgroundColor};
+  }
+
+  #city-select {
+    padding-right: 0;
+  }
+
+  #search-userName  {
+    width: 120px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .individualInput {
+    margin-top: 20px;
+    margin-right: 40px;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  .checkbox-wrapper {
+    display: inline-block;
+    label {
+      margin-left: 10px;
+    }
   }
 `
 
@@ -83,32 +140,57 @@ const Filters: FunctionComponent = () => {
   return (
     <StyledFilters>
       <form className="filters" onSubmit={(e: FormEvent) => e.preventDefault()}>
-        <div className="individualInput">
-          <select
-            name="city"
-            id="city-select"
-            onChange={(e: ChangeEvent<HTMLSelectElement>) => {
-              const filterValue = e.target.value
-              if (filterValue === '') {
-                removeFilter('city-select')
-              } else {
-                addFilter({
-                  id: 'city-select',
-                  test: ({ cityId }) => cityId === filterValue,
-                })
-              }
-              changeSelectedCityId(filterValue)
-            }}
-          >
-            <option value="">All cities</option>
-            {allCities.map(({ id: cityId, name: cityName }) => (
-              <option key={cityId} value={cityId}>
-                {cityName}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="individualInput">
+        {/* <div className="individualInput"> */}
+        <select
+          name="city"
+          id="city-select"
+          className="individualInput"
+          onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+            const filterValue = e.target.value
+            if (filterValue === '') {
+              removeFilter('city-select')
+            } else {
+              addFilter({
+                id: 'city-select',
+                test: ({ cityId }) => cityId === filterValue,
+              })
+            }
+            changeSelectedCityId(filterValue)
+          }}
+        >
+          <option value="">All cities</option>
+          {allCities.map(({ id: cityId, name: cityName }) => (
+            <option key={cityId} value={cityId}>
+              {cityName}
+            </option>
+          ))}
+        </select>
+        {/* </div>
+        <div className="individualInput"> */}
+        <input
+          type="text"
+          name="search-userName"
+          className="individualInput"
+          id="search-userName"
+          placeholder="Architect"
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            const filterValue = e.target.value
+            if (filterValue === '') {
+              removeFilter('search-userName')
+            } else {
+              addFilter({
+                id: 'search-userName',
+                test: ({ userName }) =>
+                  fuzzyMatches({
+                    searchString: filterValue,
+                    sourceString: userName,
+                  }),
+              })
+            }
+          }}
+        />
+        {/* </div>*/}
+        <div className="individualInput checkbox-wrapper">
           <input
             type="checkbox"
             id="personal-projects"
@@ -126,31 +208,6 @@ const Filters: FunctionComponent = () => {
             }}
           />
           <label htmlFor="personal-projects">My Projects</label>
-          <br />
-        </div>
-
-        <div className="individualInput">
-          <input
-            type="text"
-            name="search-userName"
-            id="search-userName"
-            placeholder="Search by Architect"
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              const filterValue = e.target.value
-              if (filterValue === '') {
-                removeFilter('search-userName')
-              } else {
-                addFilter({
-                  id: 'search-userName',
-                  test: ({ userName }) =>
-                    fuzzyMatches({
-                      searchString: filterValue,
-                      sourceString: userName,
-                    }),
-                })
-              }
-            }}
-          />
         </div>
       </form>
     </StyledFilters>

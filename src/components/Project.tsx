@@ -12,7 +12,7 @@ const StyledProject = styled.div`
   margin-top: 1.2rem;
   padding: 2%;
   @media (min-width: 1093px) {
-    margin: 12px 8px 12px 4px;
+    margin-top: 12px;
   }
 
   img {
