@@ -12,7 +12,8 @@ const StyledNavbar = styled.nav`
   display: flex;
   background-color: rgba(0, 189, 147, 0.82);
   justify-content: space-between;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+  font-weight: 500;
   /* position: absolute;
   top: 0;
   left: 0; */
@@ -32,7 +33,7 @@ const StyledNavbar = styled.nav`
     .signOutbutton {
       border: 1px solid white;
       border-radius: 10px;
-      padding: 10px;
+      padding: 5px;
       &:hover:not(.active) {
         background-color: rgb(28, 125, 104);
       }

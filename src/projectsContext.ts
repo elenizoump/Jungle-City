@@ -8,7 +8,7 @@ export interface ProjectInterface {
   cityId: string
   cityName: string
   location: string
-  status: 'active' | 'proposed' | 'building'
+  status: 'completed' | 'proposed' | 'in progress'
   squareMetersOfGreenery: number
 }
 

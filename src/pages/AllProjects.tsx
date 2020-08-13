@@ -9,6 +9,7 @@ import React, {
 import MainLayout from '../layouts/MainLayout'
 import styled from 'styled-components/macro'
 import ProgressBar from '../components/ProgressBar'
+import CustomProgressbar from '../components/CustomProgressbar'
 import ProjectsList from '../components/ProjectsList'
 import Filters from '../components/Filters'
 import ProjectsContext, { ProjectInterface } from '../projectsContext'
@@ -88,8 +89,14 @@ const StyledAllProjects = styled.div`
 
   .projectList-wrapper {
     width: 100%;
-    max-height: 80%;
+    max-height: 78%;
     overflow-y: auto;
+
+    .projects {
+      margin: 30px 0 0 8px;
+      font-weight: 700;
+      color: ${(props) => props.theme.primary.greenTextColor};
+    }
   }
 
   .mapLocation {
@@ -230,12 +237,14 @@ const AllProjects: FunctionComponent = () => {
               <h1>DASHBOARD</h1>
               <div className="header-area">
                 {console.log(getPercentage())}
+                {/* <CustomProgressbar amountCompleted={getPercentage()} /> */}
                 <ProgressBar amountCompleted={getPercentage()} />
               </div>
               <div className="filters-area">
                 <Filters />
               </div>
               <div className="projectList-wrapper">
+                <h2 className="projects">PROJECTS</h2>
                 <ProjectsList projects={filteredProjects()} />
               </div>
             </div>
@@ -255,7 +264,7 @@ const AllProjects: FunctionComponent = () => {
                   // src="https://www.google.com/maps/d/embed?mid=1XXO8angE0F_7Di_xxQUNcFFFAia0nL1-"
                   // src="https://www.google.com/maps/d/embed?mid=1qXlNv-dgSGTW6E5pWe2m6YOYo32kSR0Q"
                   // src="https://www.google.com/maps/d/embed?mid=10dow9xbJ22PIuSACp-5dU7akjCemdCzd"
-                  style={{ border: 0, borderRadius: '10px' }}
+                  style={{ border: 0, borderRadius: '0 7px 7px 0' }}
                 />
               </div>
             </div>

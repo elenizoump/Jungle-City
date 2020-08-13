@@ -11,7 +11,7 @@ const StyledProjectsList = styled.div`
   div:first-child {
     margin-top: 0;
   }
-  margin-top: 30px;
+  margin-top: 15px;
   border-radius: 14px;
   padding: 0 7px 7px 7px;
   background-color: transparent;

@@ -5,6 +5,7 @@ import React, {
   useContext,
   ChangeEvent,
 } from 'react'
+import { Redirect, Link } from 'react-router-dom'
 import MainLayout from '../layouts/MainLayout'
 import styled from 'styled-components/macro'
 import CitiesContext from '../citiesContext'
@@ -52,6 +53,9 @@ const StyledAddProjectForm = styled.div`
     .gettingStarted {
       font-weight: 700;
     }
+    .individualInput :focus {
+      outline-color: ${(props) => props.theme.primary.buttonbackgroundColor};
+    }
     .individualInput {
       label {
         font-size: 1.1rem;
@@ -72,6 +76,11 @@ const StyledAddProjectForm = styled.div`
         display: block;
         width: 100%;
       }
+      input,
+      select :focus,
+      :checked {
+        outline-color: ${(props) => props.theme.primary.buttonbackgroundColor};
+      }
     }
   }
 
@@ -87,6 +96,18 @@ const StyledAddProjectForm = styled.div`
     font-weight: 700;
   }
 
+  button :focus {
+    outline-color: ${(props) => props.theme.primary.buttonbackgroundColor};
+  }
+
+  button :hover {
+    background-color:rgb(22 201 162);
+    /* color: ${(props) => props.theme.primary.buttonbackgroundColor}; */
+  }
+  .goBackButton :hover {
+    background-color: rgb(22 201 162);
+    color: white;
+  }
   .goBackButton {
     background-color: white;
     border: 1px solid ${(props) => props.theme.primary.buttonbackgroundColor};
@@ -109,25 +130,31 @@ const AddProjectForm: FunctionComponent = () => {
   const [status, setStatus] = useState('')
   const [squareMetersOfGreenery, setSquareMetersOfGreenery] = useState(0)
   const { addProject } = useContext(ProjectsContext)
+  const [submitted, setSubmitted] = useState(false)
 
   const formValid = () =>
     name !== '' &&
     cityId !== '' &&
-    status === ('active' || 'proposed' || 'building') &&
+    status === ('completed' || 'proposed' || 'in progress') &&
     location !== '' &&
     squareMetersOfGreenery > 0
 
-  const onFormSubmit = (e: FormEvent) => {
+  const onFormSubmit = async (e: FormEvent) => {
     e.preventDefault()
     if (formValid()) {
-      addProject({
+      await addProject({
         name,
         cityId,
         status: status as ProjectInterface['status'],
         location,
         squareMetersOfGreenery,
       })
+      setSubmitted(true)
     }
+  }
+
+  if (submitted) {
+    return <Redirect to="/all-projects" />
   }
 
   return (
@@ -150,6 +177,19 @@ const AddProjectForm: FunctionComponent = () => {
               />
             </div>
             <div className="individualInput">
+              <label htmlFor="input-name">LOCATION</label>
+              <input
+                type="text"
+                id="input-name"
+                name="location"
+                //placeholder="Project's Location"
+                value={location}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setLocation(e.target.value)
+                }
+              />
+            </div>
+            <div className="individualInput">
               <label htmlFor="city-select">CITY</label>
               <select
                 name="city"
@@ -166,19 +206,7 @@ const AddProjectForm: FunctionComponent = () => {
                 ))}
               </select>
             </div>
-            {/* <div className="individualInput">
-              <label htmlFor="input-name">LOCATION</label>
-              <input
-                type="text"
-                id="input-name"
-                name="location"
-                //placeholder="Project's Location"
-                value={location}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setLocation(e.target.value)
-                }
-              />
-            </div> */}
+
             <div className="individualInput">
               <label htmlFor="status-select">BUILDING STATUS</label>
               <select
@@ -190,7 +218,7 @@ const AddProjectForm: FunctionComponent = () => {
                 }
               >
                 <option value="">Please select status</option>
-                {['active', 'building', 'proposed'].map((status) => (
+                {['completed', 'in progress', 'proposed'].map((status) => (
                   <option key={status} value={status}>
                     {status}
                   </option>
@@ -212,9 +240,9 @@ const AddProjectForm: FunctionComponent = () => {
                 }
               />
             </div>
-            <button className="goBackButton" type="submit">
+            <Link to="/all-projects" className="goBackButton">
               GO BACK
-            </button>
+            </Link>
             <button type="submit">ADD</button>
           </form>
         </div>

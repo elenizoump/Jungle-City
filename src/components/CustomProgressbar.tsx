@@ -5,7 +5,7 @@ interface ProgressBarProps {
   amountCompleted: number
 }
 
-const StyledProgressBar = styled.div`
+const StyledCustomProgressbar = styled.div`
   height: 35px;
   width: 95%;
   .progress-empty {
@@ -45,32 +45,31 @@ const StyledProgressBar = styled.div`
     }
   }
 `
-
-const ProgressBar: FunctionComponent<ProgressBarProps> = ({
+const CustomProgressbar: FunctionComponent<ProgressBarProps> = ({
   amountCompleted,
 }) => {
   const [style, setStyle] = useState({})
-  // setTimeout(() => {
-  //   const newStyle = {
-  //     opacity: 1,
-  //     width: `${amountCompleted}%`,
-  //   }
-  //   setStyle(newStyle)
-  // }, 1000)
+  setTimeout(() => {
+    const newStyle = {
+      opacity: 1,
+      width: `${amountCompleted}%`,
+    }
+    setStyle(newStyle)
+  }, 1000)
 
   if (amountCompleted === -1) {
     return null
   }
 
   return (
-    <StyledProgressBar>
+    <StyledCustomProgressbar>
       <div className="progress-empty">
         <div className="progress-completed" style={style}>
           <p>{amountCompleted}%</p>
         </div>
       </div>
-    </StyledProgressBar>
+    </StyledCustomProgressbar>
   )
 }
 
-export default ProgressBar
+export default CustomProgressbar

@@ -10,7 +10,7 @@ import styled from 'styled-components/macro'
 import AuthContext from '../authContext'
 import CitiesContext from '../citiesContext'
 import { FilterManagerContext } from '../pages/AllProjects'
-// const [searchTerm, setSearchTerm] = useState('')
+import filter from '../images/filter.png'
 
 const StyledFilters = styled.div`
   form {
@@ -69,6 +69,10 @@ const StyledFilters = styled.div`
     &:last-child {
       margin-right: 0;
     }
+  }
+
+  .individualInput :focus {
+    outline-color: ${(props) => props.theme.primary.buttonbackgroundColor};
   }
 
   .checkbox-wrapper {
@@ -140,6 +144,11 @@ const Filters: FunctionComponent = () => {
   return (
     <StyledFilters>
       <form className="filters" onSubmit={(e: FormEvent) => e.preventDefault()}>
+        <img
+          src={filter}
+          alt="Building Icon"
+          style={{ height: '20px', width: '20px', marginRight: '20px' }}
+        />
         {/* <div className="individualInput"> */}
         <select
           name="city"
