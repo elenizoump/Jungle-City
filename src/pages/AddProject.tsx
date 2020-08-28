@@ -16,7 +16,7 @@ const StyledAddProjectForm = styled.div`
   background-image: url(${CreateProjectPicture});
   background-size: cover;
   background-repeat: no-repeat;
-  height: 100vh;
+  height: calc(100vh - 70px);
   width: 100vw;
   box-sizing: border-box;
   display: grid;
@@ -28,7 +28,8 @@ const StyledAddProjectForm = styled.div`
     color: ${(props) => props.theme.primary.greenTextColor};
     border-radius: 10px;
     width: 45%;
-    padding: 0 3% 5% 3%;
+    /* height: 90%; */
+    padding: 0 3% 3% 3%;
     margin-right: auto;
     margin-left: auto;
     box-sizing: border-box;
@@ -47,7 +48,7 @@ const StyledAddProjectForm = styled.div`
 
     h1 {
       margin-top: 0;
-      font-size: 3rem;
+      font-size: 2.5rem;
       text-align: center;
     }
     .gettingStarted {

@@ -6,6 +6,17 @@ export interface AuthContextInterface {
   user: User | null
   signIn: ({ email, password }: { email: string; password: string }) => void
   signOut: () => void
+  signUp: ({
+    firstName,
+    lastName,
+    email,
+    password,
+  }: {
+    firstName: string
+    lastName: string
+    email: string
+    password: string
+  }) => void
 }
 
 const AuthContext = createContext<AuthContextInterface>({
@@ -13,6 +24,7 @@ const AuthContext = createContext<AuthContextInterface>({
   user: null,
   signIn: () => {},
   signOut: () => {},
+  signUp: () => {},
 })
 
 export default AuthContext

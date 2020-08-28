@@ -28,6 +28,7 @@ import * as firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 import LogOut from './pages/LogOut'
+import SignUp from './pages/SignUp'
 
 const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
 body {
@@ -44,6 +45,10 @@ body {
 interface SignInProps {
   email: string
   password: string
+}
+interface SignUpProps extends SignInProps {
+  firstName: string
+  lastName: string
 }
 
 firebase.initializeApp({
@@ -78,6 +83,21 @@ const App: FunctionComponent = () => {
         setAuthStatus('loggedIn')
       })
   }
+
+  const signUp = ({ firstName, lastName, email, password }: SignUpProps) =>
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(async ({ user }) => {
+        if (user) {
+          await db
+            .collection('users')
+            .add({ firstName, lastName, userId: user.uid })
+          // user.updateProfile({
+          //   displayName: `${firstName} ${lastName}`,
+          // })
+        }
+      })
 
   const signOut = () => {
     setAuthStatus('pending')
@@ -210,6 +230,7 @@ const App: FunctionComponent = () => {
         user,
         signIn,
         signOut,
+        signUp,
       }}
     >
       <CitiesContext.Provider value={cities}>
@@ -219,6 +240,9 @@ const App: FunctionComponent = () => {
               <Switch>
                 <Route path="/authentication/log-in">
                   <LogIn />
+                </Route>
+                <Route path="/authentication/sign-up">
+                  <SignUp />
                 </Route>
                 <Route path="/city-emissions-form">
                   <CityEmissionsForm />

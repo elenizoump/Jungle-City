@@ -1,7 +1,8 @@
 import React, { FunctionComponent } from 'react'
 import styled from 'styled-components/macro'
 import { Link } from 'react-router-dom'
-import Logo_JungleCity from '../images/Logo_JungleCity.png'
+import Logo_JungleCity from '../images/CustomLogo.png'
+import profileNavbar from '../images/profileNavbar.png'
 
 const StyledNavbar = styled.nav`
   /* position: fixed;
@@ -10,9 +11,9 @@ const StyledNavbar = styled.nav`
   height: 70px;
   width: 100%;
   display: flex;
-  background-color: rgba(0, 189, 147, 0.82);
+  background-color: rgb(1 144 112);
   justify-content: space-between;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: 500;
   /* position: absolute;
   top: 0;
@@ -21,17 +22,28 @@ const StyledNavbar = styled.nav`
   .Logo {
     height: 100%;
     width: 185px;
+    img {
+      height: 55px;
+    }
+  }
+
+  .profile {
+    height: 22px;
+    padding-right: 0;
   }
   .logout {
     height: 100%;
-    width: 125px;
+    width: 120px;
+    display: flex;
+
     a {
-      &:hover:not(.active) {
+      padding-left: 0;
+      /* &:hover:not(.active) {
         background-color: rgba(0, 189, 147, 0.82);
-      }
+      } */
     }
     .signOutbutton {
-      border: 1px solid white;
+      /* border: 1px solid white; */
       border-radius: 10px;
       padding: 5px;
       &:hover:not(.active) {
@@ -41,10 +53,11 @@ const StyledNavbar = styled.nav`
   }
 
   a {
+    font-weight: 600;
     height: 100%;
     display: flex;
     align-items: center;
-    padding: 0 16px;
+    padding: 0 4px;
     height: 100%;
     display: flex;
     align-items: center;
@@ -66,7 +79,7 @@ const StyledNavbar = styled.nav`
     height: 100%;
     width: 100%;
     justify-content: space-evenly;
-    max-width: 800px;
+    max-width: 600px;
   }
 
   ul.topnav li {
@@ -95,23 +108,32 @@ const Navbar: FunctionComponent = () => (
     </div>
     <ul className="topnav">
       <li>
-        <Link to="/city-emissions-form">Calculate 0ffset Target</Link>
+        <Link to="/all-projects">The Platform</Link>
       </li>
       <li>
-        <Link to="/add-project">Add a Project</Link>
+        <Link to="/city-emissions-form">
+          CO <sub>2</sub> &nbsp; Offset
+        </Link>
       </li>
       <li>
-        <Link to="/all-projects">View All Projects</Link>
+        <Link to="/add-project">Add Project</Link>
       </li>
+
       <li>
-        <Link to="/profile">Profile</Link>
+        <div className="logout">
+          <Link to="/profile">
+            <img
+              className="profile"
+              src={profileNavbar}
+              alt="Logo of JungleCity"
+            />
+          </Link>
+          <Link to="/logout">
+            <div className="signOutbutton">Sign Out</div>
+          </Link>
+        </div>
       </li>
     </ul>
-    <div className="logout">
-      <Link to="/logout">
-        <div className="signOutbutton">Sign Out</div>
-      </Link>
-    </div>
   </StyledNavbar>
 )
 

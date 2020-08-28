@@ -55,6 +55,9 @@ const StyledAllProjects = styled.div`
   .filters-area {
     /* background-color: rgba(255, 255, 255, 0.79); */
     /* border-radius: 14px; */
+    /* position: absolute;
+    top: 55px;
+    left: 19px; */
     box-sizing: border-box;
     padding: 0 7px;
   }
@@ -234,15 +237,18 @@ const AllProjects: FunctionComponent = () => {
         <StyledAllProjects>
           <div className="projects-wrapper">
             <div className="contents-area">
-              <h1>DASHBOARD</h1>
-              <div className="header-area">
-                {console.log(getPercentage())}
+              <div className="title-filters">
+                <h1>DASHBOARD</h1>
+                {/* <div className="header-area">
+                {console.log(getPercentage())} */}
                 {/* <CustomProgressbar amountCompleted={getPercentage()} /> */}
-                <ProgressBar amountCompleted={getPercentage()} />
+                {/* <ProgressBar amountCompleted={getPercentage()} />
+              </div> */}
+                <div className="filters-area">
+                  <Filters />
+                </div>
               </div>
-              <div className="filters-area">
-                <Filters />
-              </div>
+
               <div className="projectList-wrapper">
                 <h2 className="projects">PROJECTS</h2>
                 <ProjectsList projects={filteredProjects()} />
