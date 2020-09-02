@@ -15,7 +15,8 @@ import AddProject from './pages/AddProject'
 import Profile from './pages/Profile'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import BackgroundPicture from './images/Background_Picture.png'
-import AuthContext, { AuthContextInterface } from './authContext'
+import AuthContext, { AuthContextInterface, User } from './authContext'
+import CurrentUser, { CurrentUserProps } from './components/CurrentUser'
 import CitiesContext, {
   CityInterface,
   CitiesContextInterface,
@@ -78,9 +79,15 @@ const App: FunctionComponent = () => {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then(({ user }) => {
-        setUser(user)
-        setAuthStatus('loggedIn')
+      .then(async ({ user }) => {
+        if (user) {
+          const userData = await getUserData({
+            id: user.uid,
+            email: user.email,
+          })
+          setUser(userData)
+          setAuthStatus('loggedIn')
+        }
       })
   }
 
@@ -93,9 +100,6 @@ const App: FunctionComponent = () => {
           await db
             .collection('users')
             .add({ firstName, lastName, userId: user.uid })
-          // user.updateProfile({
-          //   displayName: `${firstName} ${lastName}`,
-          // })
         }
       })
 
@@ -118,7 +122,7 @@ const App: FunctionComponent = () => {
     }
     const userDocs = await db
       .collection('users')
-      .where('userId', '==', user.uid)
+      .where('userId', '==', user.id)
       .get()
     await userDocs.docs[0].ref.collection('projects').add(project)
     getProjects()
@@ -141,9 +145,26 @@ const App: FunctionComponent = () => {
         mapId,
       })
     })
-
-    console.table(allCities)
     setCities(allCities)
+  }
+
+  const getUserData = async ({
+    id,
+    email,
+  }: {
+    id: firebase.User['uid']
+    email: firebase.User['email']
+  }): Promise<User> => {
+    const { firstName, lastName } = (
+      await db.collection('users').where('userId', '==', id).get()
+    ).docs[0].data()
+
+    return {
+      id,
+      email: email ?? '',
+      firstName,
+      lastName,
+    }
   }
 
   const getProjects = useCallback(async () => {
@@ -181,7 +202,6 @@ const App: FunctionComponent = () => {
         status,
         squareMetersOfGreenery,
       } = project.data() as ProjectInterface
-      console.log(usersArray)
       const owner = usersArray?.find(
         (user) => user.id === project?.ref?.parent?.parent?.id
       ) || { id: '', userId: '', firstName: '', lastName: '' }
@@ -197,15 +217,15 @@ const App: FunctionComponent = () => {
         squareMetersOfGreenery,
       })
     })
-    console.table(allProjects)
     setProjects(allProjects)
   }, [user, cities])
 
   useEffect(() => {
-    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+    const unsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
       if (user) {
+        const userData = await getUserData({ id: user.uid, email: user.email })
+        setUser(userData)
         setAuthStatus('loggedIn')
-        setUser(user)
       } else {
         setAuthStatus('loggedOut')
         setUser(null)
@@ -254,7 +274,11 @@ const App: FunctionComponent = () => {
                   <AddProject />
                 </Route>
                 <Route path="/profile">
-                  <Profile />
+                  {/* <Profile
+                    // displayName={displayName}
+                    // photoURL={photoURL}
+                    email={email}
+                  /> */}
                 </Route>
                 <Route path="/logout">
                   <LogOut />

@@ -211,7 +211,7 @@ const Filters: FunctionComponent = () => {
               } else {
                 addFilter({
                   id: 'personal-projects',
-                  test: ({ userId }) => (user && userId === user?.uid) || false,
+                  test: ({ userId }) => (user && userId === user?.id) || false,
                 })
               }
             }}

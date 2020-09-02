@@ -1,5 +1,11 @@
 import { createContext } from 'react'
-import type { User } from 'firebase/app'
+
+export interface User {
+  id: string
+  email: string
+  firstName: string
+  lastName: string
+}
 
 export interface AuthContextInterface {
   authStatus: 'pending' | 'loggedIn' | 'loggedOut'
