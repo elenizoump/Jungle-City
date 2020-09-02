@@ -186,7 +186,7 @@ const App: FunctionComponent = () => {
       usersArray.push({
         id: user.id,
         userId: user.data().userId,
-        firstName: user.data().name,
+        firstName: user.data().firstName,
         lastName: user.data().lastName,
       })
     })
