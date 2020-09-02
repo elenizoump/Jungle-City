@@ -3,8 +3,6 @@ import React, {
   useState,
   useContext,
   createContext,
-  useEffect,
-  useReducer,
 } from 'react'
 import MainLayout from '../layouts/MainLayout'
 import styled from 'styled-components/macro'
@@ -22,6 +20,12 @@ const StyledAllProjects = styled.div`
   align-items: center;
   justify-items: center;
 
+  .title-filters {
+    position: absolute;
+    height: 30%;
+    width: 46%;
+  }
+
   .projects-wrapper {
     width: 95%;
     display: inline-block;
@@ -36,7 +40,7 @@ const StyledAllProjects = styled.div`
     text-align: left !important;
   } */
   h1 {
-    margin-top: 0;
+    margin: 0;
     color: ${(props) => props.theme.primary.greenTextColor};
     font-weight: 700;
     text-align: left;
@@ -89,17 +93,21 @@ const StyledAllProjects = styled.div`
       /* height: 560px; */
     }
   }
-
+  .projects {
+    margin: 30px 0 0 8px;
+    font-weight: 700;
+    color: ${(props) => props.theme.primary.greenTextColor};
+  }
+  .projectsArea-wrapper {
+    position: absolute;
+    top: 30%;
+    width: 45%;
+    height: 66%;
+  }
   .projectList-wrapper {
     width: 100%;
-    max-height: 78%;
+    height: 100%;
     overflow-y: auto;
-
-    .projects {
-      margin: 30px 0 0 8px;
-      font-weight: 700;
-      color: ${(props) => props.theme.primary.greenTextColor};
-    }
   }
 
   .mapLocation {
@@ -247,11 +255,12 @@ const AllProjects: FunctionComponent = () => {
                 <div className="filters-area">
                   <Filters />
                 </div>
-              </div>
-
-              <div className="projectList-wrapper">
                 <h2 className="projects">PROJECTS</h2>
-                <ProjectsList projects={filteredProjects()} />
+              </div>
+              <div className="projectsArea-wrapper">
+                <div className="projectList-wrapper">
+                  <ProjectsList projects={filteredProjects()} />
+                </div>
               </div>
             </div>
             <div className="mapLocation">

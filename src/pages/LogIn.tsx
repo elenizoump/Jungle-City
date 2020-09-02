@@ -121,9 +121,6 @@ const LogIn: FunctionComponent = () => {
 
     if (formValid({ email, password })) {
       // ajax request with callback tha sets the state
-      console.log(
-        `Submitting form with email: ${email} and password: ${password}`
-      )
       // set logged in
       // authContext.setStatus('loggedIn')
       signIn({ email, password })

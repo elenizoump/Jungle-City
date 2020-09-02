@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import styled from 'styled-components/macro'
 import { ProjectInterface } from '../projectsContext'
-import buildingIcon from '../images/Building_Icon.png'
 import hotelIcon from '../images/hotelIcon.png'
 import profileIcon from '../images/profileIcon.png'
 import locationIcon from '../images/locationIcon.png'

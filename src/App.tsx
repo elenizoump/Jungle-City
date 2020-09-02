@@ -16,7 +16,6 @@ import Profile from './pages/Profile'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import BackgroundPicture from './images/Background_Picture.png'
 import AuthContext, { AuthContextInterface, User } from './authContext'
-import CurrentUser, { CurrentUserProps } from './components/CurrentUser'
 import CitiesContext, {
   CityInterface,
   CitiesContextInterface,
@@ -274,11 +273,7 @@ const App: FunctionComponent = () => {
                   <AddProject />
                 </Route>
                 <Route path="/profile">
-                  {/* <Profile
-                    // displayName={displayName}
-                    // photoURL={photoURL}
-                    email={email}
-                  /> */}
+                  <Profile />
                 </Route>
                 <Route path="/logout">
                   <LogOut />
